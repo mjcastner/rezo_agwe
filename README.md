@@ -5,16 +5,19 @@ A second screen experience for Cyberpunk 2077 focusing on mapping and player sta
 
 | Page | Features | GIF
 | --- | --- | --- |
-| Subject | Test | Test |
-| Map | Test | Test |
-| Locations | Test | Test |
-| Insights | Test | Test |
-| Quests | Test | Test |
-| Archive | Test | Test |
+| Subject | Shows core stats, attributes, and quest information for the latest save. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/subject.gif" width="1000"> |
+| Map | Shows an interactive map of Night City with replays of your game sessions. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/map.gif" width="1000"> |
+| Locations | Tracks locations your character has visited in the game. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/locations.gif" width="1000"> |
+| Insights | Metrics and insights about your character, playthrough, and style. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/insights.gif" width="1000"> |
+| Quests | Tracks quests and objectives that your character has seen in-game. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/quests.gif" width="1000"> |
+| Archive | Allows you to export all data to JSON or CSV. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/archive.gif" width="1000"> |
 
 ## Getting started
 ### 1. Clone the repository
+
+```
 git clone https://github.com/mjcastner/rezo_agwe
+```
 
 ### 2. Install the metrics mod / dependencies
 
