@@ -357,6 +357,9 @@
         padding: 8px;
         cursor: pointer;
         transition: 0.2s;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
     .cyber-btn:hover {
@@ -386,7 +389,7 @@
     }
 
     .cyber-select {
-        width: 100%;
+        flex: 1;
         background: rgba(20, 10, 10, 0.9);
         border: 1px solid var(--cp-red);
         color: var(--cp-red);
@@ -420,7 +423,7 @@
         </div>
     </div>
 
-    <aside id="sidebar" class="map-sidebar">
+    <aside id="sidebar" class="map-sidebar {{ 'collapsed' if not selected_date else '' }}">
         <button id="sidebarToggle" class="sidebar-toggle">
             <span class="material-icons">chevron_right</span>
         </button>
@@ -517,13 +520,17 @@
                     <span class="stat-lbl">SESSION ARCHIVE</span>
                     <span class="stat-lbl" style="color: #666;">// SELECT LOG</span>
                 </div>
-                <select id="dateSelect" class="cyber-select">
-                    <option value="" disabled selected>-- SELECT DATE --</option>
-                    {% for d in dates %}
-                    <option value="{{ d.date.strftime('%Y-%m-%d') }}">{{ d.date.strftime('%Y-%m-%d') }} [{{ d.events }}]
-                    </option>
-                    {% endfor %}
-                </select>
+                <div style="display: flex; gap: 5px;">
+                    <select id="dateSelect" class="cyber-select">
+                        <option value="" disabled selected>-- SELECT DATE --</option>
+                        {% for d in dates %}
+                        <option value="{{ d.date.strftime('%Y-%m-%d') }}">{{ d.date.strftime('%Y-%m-%d') }} [{{ d.events
+                            }}]
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <button id="btnLoadDate" class="cyber-btn" title="Load selected date">LOAD</button>
+                </div>
             </div>
 
             <div class="controls-area">
@@ -556,17 +563,29 @@
     var initGameY = {{ y if y else 0 }};
     var initZoom = {{ z if z else 0 }};
 
+    // SIDEBAR LOGIC
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebarToggle');
+
+    // Set initial icon based on backend state
+    const toggleIcon = sidebarToggle.querySelector('.material-icons');
+    if (sidebar.classList.contains('collapsed')) {
+        toggleIcon.innerText = 'chevron_left';
+    } else {
+        toggleIcon.innerText = 'chevron_right';
+    }
+
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
-        sidebarToggle.querySelector('.material-icons').innerText = sidebar.classList.contains('collapsed') ? 'chevron_left' : 'chevron_right';
+        // Update Icon
+        toggleIcon.innerText = sidebar.classList.contains('collapsed') ? 'chevron_left' : 'chevron_right';
+        // Redraw map size after animation
         setTimeout(() => { if (map) map.invalidateSize(); }, 350);
     });
 
     var config = {
         refGame: { x: -1425.62, y: -73.93 },
-        refTile: { x: 58.125, y: 54.875, z: 7 }, 
+        refTile: { x: 58.125, y: 54.875, z: 7 },
         // pixelsPerGameUnit: 25.705,
         pixelsPerGameUnit: 3.213125,
         invertY: true
@@ -583,7 +602,6 @@
         return map ? map.unproject([refPixelX + deltaPixelX, refPixelY + deltaPixelY], config.refTile.z) : null;
     }
 
-    // UPDATED MAX ZOOM TO 7
     var map = L.map('map', { zoomControl: false, crs: L.CRS.Simple, attributionControl: false });
     L.tileLayer('/static/images/tiles/{z}/{x}/{y}.png', { minZoom: 0, maxZoom: 7, maxNativeZoom: 7, noWrap: true, tileSize: 256 }).addTo(map);
 
@@ -596,13 +614,15 @@
 
     // --- 3. DATA PROCESSING ---
     var activeReplayData = [];
-    allServerEvents.forEach(evt => {
-        if (evt.spatial) {
-            evt.latlng = gameToLatLng(evt.spatial.x, evt.spatial.y);
-            activeReplayData.push(evt);
-        }
-    });
-    activeReplayData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    if (allServerEvents) {
+        allServerEvents.forEach(evt => {
+            if (evt.spatial) {
+                evt.latlng = gameToLatLng(evt.spatial.x, evt.spatial.y);
+                activeReplayData.push(evt);
+            }
+        });
+        activeReplayData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
+    }
 
     // --- 4. REPLAY STATE ---
     var replayMarker = null, replayPath = null;
@@ -662,7 +682,8 @@
             updateDisplay();
         } else {
             ui.scrubber.disabled = true;
-            console.log("No data available.");
+            ui.district.innerText = "NO DATA";
+            ui.subdistrict.innerText = "Select Date to Load";
         }
     }
 
@@ -785,20 +806,26 @@
 
     // --- 7. DATE PICKER LOGIC ---
     const dateSelect = document.getElementById('dateSelect');
+    const loadBtn = document.getElementById('btnLoadDate');
     const urlParams = new URLSearchParams(window.location.search);
     const currentDate = urlParams.get('date');
+
+    // Init picker value
     if (currentDate) {
         dateSelect.value = currentDate;
-    } else if (dateSelect.options.length > 1) {
-        dateSelect.selectedIndex = dateSelect.options.length - 1;
+    } else {
+        dateSelect.value = ""; // Default placeholder
     }
 
-    dateSelect.addEventListener('change', (e) => {
-        const val = e.target.value;
+    // Load button click handler
+    loadBtn.addEventListener('click', () => {
+        const val = dateSelect.value;
         if (val) {
             const url = new URL(window.location.href);
             url.searchParams.set('date', val);
             window.location.href = url.toString();
+        } else {
+            alert("Please select a date first.");
         }
     });
 

@@ -115,6 +115,7 @@ async def map(
             "y": y,
             "z": z,
             "query": query or "",
+            "selected_date": date,
             "events": events,
             "dates": dates,
             "height_bounds": height_bounds,
