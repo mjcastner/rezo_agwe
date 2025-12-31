@@ -1,6 +1,16 @@
 # Rezo Agwe
+A second screen experience for Cyberpunk 2077 focusing on mapping and player stats
 
-## Demo
+## Pages / features
+
+| Page | Features | GIF
+| --- | --- | --- |
+| Subject | Test | Test |
+| Map | Test | Test |
+| Locations | Test | Test |
+| Insights | Test | Test |
+| Quests | Test | Test |
+| Archive | Test | Test |
 
 ## Getting started
 ### 1. Clone the repository
