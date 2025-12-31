@@ -52,7 +52,7 @@ Written with Python 3.12 in mind. Attempts to work with Windows, Mac, and Linux
 Steam installs, specify --game_dir if you use a non-standard config.
 
 ```
-cd rezo_agwe/server/
+cd server/
 pip install -r requirements.txt
 python main.py
 ```
