@@ -20,31 +20,29 @@
 
     <div class="data-feed">
         {% for quest in quests %}
-        
+
         {# --- Logic: Determine Criticality based on specific keywords --- #}
         {% set is_critical = false %}
         {% if 'Somewhat Damaged' in quest.title or 'Blackwall' in quest.objective %}
-            {% set is_critical = true %}
+        {% set is_critical = true %}
         {% endif %}
 
         {# --- Logic: Map Lifepath data strings to filenames --- #}
         {% if quest.lifepath == 'Corporate' %}
-            {% set icon_file = 'corpo.png' %}
+        {% set icon_file = 'corpo.png' %}
         {% elif quest.lifepath == 'StreetKid' %}
-            {% set icon_file = 'street_kid.png' %}
+        {% set icon_file = 'street_kid.png' %}
         {% else %}
-            {# Default to nomad or direct lowercase mapping #}
-            {% set icon_file = 'nomad.png' %}
+        {# Default to nomad or direct lowercase mapping #}
+        {% set icon_file = 'nomad.png' %}
         {% endif %}
 
         <div class="data-row {% if is_critical %}critical-row{% endif %}">
 
             {# 1. Lifepath Icon (PNG Asset) #}
             <div class="col-lp">
-                <img src="{{ url_for('static', path='images/icons/lifepaths/' + icon_file) }}" 
-                     class="lp-icon" 
-                     alt="{{ quest.lifepath }}"
-                     title="{{ quest.lifepath }}">
+                <img src="{{ url_for('static', path='images/icons/lifepaths/' + icon_file) }}" class="lp-icon"
+                    alt="{{ quest.lifepath }}" title="{{ quest.lifepath }}">
             </div>
 
             {# 2. Quest Title #}
@@ -176,7 +174,7 @@
         border-left: 2px solid #ff003c;
         background: linear-gradient(90deg, rgba(255, 0, 60, 0.1) 0%, transparent 100%);
     }
-    
+
     .critical-row .quest-name {
         color: #ff003c;
         text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
@@ -221,7 +219,7 @@
         opacity: 0.9;
         font-size: 0.8rem;
     }
-    
+
     .prompt {
         color: #ff3c3c;
         margin-right: 0.5rem;
@@ -237,7 +235,7 @@
         align-items: flex-end;
         color: #ff8888;
     }
-    
+
     .date-sub {
         font-size: 0.6rem;
         opacity: 0.5;
@@ -271,13 +269,15 @@
     .data-feed::-webkit-scrollbar {
         width: 6px;
     }
+
     .data-feed::-webkit-scrollbar-track {
         background: #1a0b0b;
     }
+
     .data-feed::-webkit-scrollbar-thumb {
         background: #ff3c3c;
     }
-    
+
     .empty-state {
         text-align: center;
         padding-top: 3rem;

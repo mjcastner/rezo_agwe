@@ -51,6 +51,8 @@ async def map(
     date: str = None,
 ):
     event_df = generate_events()
+
+    # Handle date arg
     if date:
         map_df = duckdb.sql(
             f"""
@@ -59,9 +61,11 @@ async def map(
         ).df()
         events = map_df.to_dict(orient="records")
 
+    # Handle coord args
     elif all([x, y, z]):
-        print(x, y, z)
-    
+        event_dict = {"spatial": {"x": x, "y": y, "z": z}}
+        events = [event_dict]
+
     else:
         map_df = duckdb.sql(
             """
@@ -69,11 +73,12 @@ async def map(
                 *
             FROM event_df 
             WHERE 
-                DATE(timestamp) IN (SELECT DATE(MAX(timestamp)) FROM event_df)
+                timestamp::timestamp IN (SELECT MAX(timestamp::timestamp) FROM event_df)
             """
         ).df()
         events = map_df.to_dict(orient="records")
 
+    # Get available dates / event counts
     date_df = duckdb.sql(
         """
         SELECT
@@ -86,6 +91,7 @@ async def map(
     ).df()
     dates = date_df.to_dict(orient="records")
 
+    # Get min / max z-height bounds
     height_bounds = (
         duckdb.sql(
             """
@@ -122,7 +128,7 @@ async def locations(request: Request):
 
     locations = (
         duckdb.sql(
-        """
+            """
         SELECT
             spatial.district AS location,
             spatial.subDistrict AS name,

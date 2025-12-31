@@ -1,5 +1,19 @@
 # Rezo Agwe
-A second screen experience for Cyberpunk 2077 focusing on mapping and player stats
+A second screen experience for Cyberpunk 2077 focusing on mapping and player
+stats.
+
+## How does it work?
+The "mod" component is a LUA script that hooks into the game engine and outputs
+the player's location and core stats to a newline-delimited JSON file. This
+happens once per second, which is chatty enough to create a nice animated map,
+but slow enough to not impact the game tick / performance.
+
+The "server" component reads this NDJSON output using [DuckDB](https://duckdb.org/)
+and renders insights / data in a [FastAPI](https://fastapi.tiangolo.com/)
+application. This has been tested with north of 500k events / 60 hours of
+playtime and *should* scale to millions of events, but you may want to clear
+out the mod root directory (where PosLogger/init.lua lives) of NDJSON files if
+you notice it slowing down too much over time.
 
 ## Pages / features
 
@@ -35,7 +49,7 @@ cp -r mod/bin/ ~/.local/share/Steam/steamapps/common/Cyberpunk\ 2077/
 
 ### 3. Run the web application
 Written with Python 3.12 in mind. Attempts to work with Windows, Mac, and Linux
-Steam installs, specify --game_dir if you use a non-standard config :)
+Steam installs, specify --game_dir if you use a non-standard config.
 
 ```
 cd rezo_agwe/server/
@@ -56,8 +70,8 @@ Pull requests are welcome, please bring your esoteric LUA knowledge.
 * Kill tracking
 * Per-weapon accuracy
 * An actual playthroughID / player UUID to differentiate output logs
-  (e.g. each unique lifepath / save combination). This is more difficult than
-  originally thought after digging into the SDK :(
+  (e.g. each unique lifepath / save combination). This appears to be more
+  difficult than originally thought after digging into the SDK.
 
 ## Contributions and thanks
 This mod would not have been possible without the existing modding community
