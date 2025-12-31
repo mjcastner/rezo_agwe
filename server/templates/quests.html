@@ -1,0 +1,287 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="archive-container">
+
+    <div class="archive-header">
+        <div class="header-title">
+            <h1 class="glitch-text" data-text="MISSION // ARCHIVE">QUEST_DB // NEURAL_LINKS</h1>
+            <div class="subtitle">JOURNAL_LOGS // {{ quests|length }} ENTRIES SYNCED</div>
+        </div>
+    </div>
+
+    {# --- Grid Headers --- #}
+    <div class="data-grid-header">
+        <div class="col-lp">ORIGIN</div>
+        <div class="col-title">OPERATION_ID</div>
+        <div class="col-obj">CURRENT_DIRECTIVE</div>
+        <div class="col-time">LAST_PING</div>
+    </div>
+
+    <div class="data-feed">
+        {% for quest in quests %}
+        
+        {# --- Logic: Determine Criticality based on specific keywords --- #}
+        {% set is_critical = false %}
+        {% if 'Somewhat Damaged' in quest.title or 'Blackwall' in quest.objective %}
+            {% set is_critical = true %}
+        {% endif %}
+
+        {# --- Logic: Map Lifepath data strings to filenames --- #}
+        {% if quest.lifepath == 'Corporate' %}
+            {% set icon_file = 'corpo.png' %}
+        {% elif quest.lifepath == 'StreetKid' %}
+            {% set icon_file = 'street_kid.png' %}
+        {% else %}
+            {# Default to nomad or direct lowercase mapping #}
+            {% set icon_file = 'nomad.png' %}
+        {% endif %}
+
+        <div class="data-row {% if is_critical %}critical-row{% endif %}">
+
+            {# 1. Lifepath Icon (PNG Asset) #}
+            <div class="col-lp">
+                <img src="{{ url_for('static', path='images/icons/lifepaths/' + icon_file) }}" 
+                     class="lp-icon" 
+                     alt="{{ quest.lifepath }}"
+                     title="{{ quest.lifepath }}">
+            </div>
+
+            {# 2. Quest Title #}
+            <div class="col-title">
+                <div class="quest-name">{{ quest.title }}</div>
+                <div class="quest-id-sub">REF: OP_{{ "%04d" | format(loop.index) }}</div>
+            </div>
+
+            {# 3. Objective #}
+            <div class="col-obj">
+                <div class="obj-text">
+                    <span class="prompt">></span> {{ quest.objective }}
+                </div>
+            </div>
+
+            {# 4. Timestamp #}
+            <div class="col-time mono-text">
+                {# Assumes timestamp object, formats to string #}
+                <span>{{ quest.last_seen.strftime('%H:%M:%S') }}</span>
+                <span class="date-sub">{{ quest.last_seen.strftime('%Y-%m-%d') }}</span>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="empty-state">
+            NO MISSION DATA FOUND.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* --- LAYOUT & CONTAINERS --- */
+    .archive-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem 2rem;
+        background-color: #050505;
+        color: #ff3c3c;
+        font-family: 'Fira Code', monospace;
+        overflow: hidden;
+    }
+
+    .archive-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #ff3c3c;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+    }
+
+    .header-title h1 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        margin: 0;
+        text-shadow: 2px 0 #fff, -2px 0 #00ffff;
+    }
+
+    .subtitle {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        letter-spacing: 0.2em;
+        margin-top: 0.25rem;
+    }
+
+    .cyber-btn {
+        border: 1px solid #ff3c3c;
+        color: #ff3c3c;
+        padding: 0.5rem 1.5rem;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        transition: all 0.2s;
+        text-transform: uppercase;
+    }
+
+    .cyber-btn:hover {
+        background-color: #ff3c3c;
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 60, 60, 0.6);
+    }
+
+    /* --- GRID CONFIGURATION --- */
+    /* Columns: Origin, Title, Objective, Time, Link */
+    .data-grid-header,
+    .data-row {
+        display: grid;
+        grid-template-columns: 50px 1.2fr 2fr 120px 50px;
+        gap: 1rem;
+        align-items: center;
+        padding: 0 0.5rem;
+    }
+
+    .data-grid-header {
+        font-size: 0.7rem;
+        font-weight: bold;
+        opacity: 0.6;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+    }
+
+    .data-feed {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-right: 0.5rem;
+    }
+
+    .data-row {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.1);
+        font-size: 0.8rem;
+        transition: background-color 0.2s;
+    }
+
+    .data-row:hover {
+        background-color: rgba(255, 60, 60, 0.08);
+    }
+
+    /* Critical Row Highlighting (Blackwall stuff) */
+    .critical-row {
+        border-left: 2px solid #ff003c;
+        background: linear-gradient(90deg, rgba(255, 0, 60, 0.1) 0%, transparent 100%);
+    }
+    
+    .critical-row .quest-name {
+        color: #ff003c;
+        text-shadow: 0 0 5px rgba(255, 0, 60, 0.5);
+    }
+
+    /* --- COLUMN STYLES --- */
+
+    /* Lifepath Icon */
+    .col-lp {
+        display: flex;
+        justify-content: center;
+    }
+
+    .lp-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 3px rgba(255, 60, 60, 0.4));
+        opacity: 0.9;
+    }
+
+    /* Title Column */
+    .quest-name {
+        font-weight: 900;
+        color: #ffcccc;
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .quest-id-sub {
+        font-size: 0.6rem;
+        opacity: 0.4;
+        font-family: monospace;
+    }
+
+    /* Objective Column */
+    .col-obj {
+        color: #fff;
+        opacity: 0.9;
+        font-size: 0.8rem;
+    }
+    
+    .prompt {
+        color: #ff3c3c;
+        margin-right: 0.5rem;
+        font-weight: bold;
+    }
+
+    /* Timestamp */
+    .mono-text {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        color: #ff8888;
+    }
+    
+    .date-sub {
+        font-size: 0.6rem;
+        opacity: 0.5;
+    }
+
+    /* Filter Link */
+    .col-link {
+        display: flex;
+        justify-content: center;
+    }
+
+    .eye-link {
+        color: #ff3c3c;
+        opacity: 0.4;
+        transition: all 0.2s ease;
+    }
+
+    .eye-link svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .eye-link:hover {
+        opacity: 1;
+        color: #00ffff;
+        filter: drop-shadow(0 0 5px #00ffff);
+        transform: scale(1.1);
+    }
+
+    /* Scrollbar */
+    .data-feed::-webkit-scrollbar {
+        width: 6px;
+    }
+    .data-feed::-webkit-scrollbar-track {
+        background: #1a0b0b;
+    }
+    .data-feed::-webkit-scrollbar-thumb {
+        background: #ff3c3c;
+    }
+    
+    .empty-state {
+        text-align: center;
+        padding-top: 3rem;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}

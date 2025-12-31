@@ -1,0 +1,439 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    /* --- SCOPED VARIABLES --- */
+    .char-interface {
+        /* Scaling Factor for the whole diagram */
+        --unit: 1vmin;
+
+        --cp-red: #ff5e5e;
+        --cp-red-dim: rgba(255, 94, 94, 0.15);
+        --cp-cyan: #00f0ff;
+        --cp-bg: #050505;
+        --cp-panel: rgba(20, 0, 0, 0.6);
+    }
+
+    /* 1. CONTAINER */
+    .char-interface {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        overflow: hidden;
+        background: radial-gradient(circle at center, #1a0505 0%, #000 80%);
+        font-family: 'Fira Code', monospace;
+        color: white;
+    }
+
+    /* 2. SIDEBAR (Preserved) */
+    .char-sidebar {
+        width: 320px;
+        flex-shrink: 0;
+        border-right: 1px solid var(--cp-red);
+        background: rgba(10, 0, 0, 0.5);
+        display: flex;
+        flex-direction: column;
+        padding: 2rem;
+        gap: 1.5rem;
+        z-index: 10;
+        backdrop-filter: blur(2px);
+    }
+
+    .char-sidebar h2 {
+        margin: 0;
+        color: var(--cp-red);
+        border-bottom: 1px solid var(--cp-red);
+        padding-bottom: 0.5rem;
+        font-size: 1.2rem;
+        letter-spacing: 2px;
+    }
+
+    .stat-block {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .stat-lbl {
+        color: var(--cp-red);
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 2px;
+    }
+
+    .stat-txt {
+        font-size: 1rem;
+        color: #ddd;
+    }
+
+    .stat-money {
+        color: #fdfd96;
+    }
+
+    /* 3. STAGE (The Diagram Area) */
+    .char-stage {
+        flex-grow: 1;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* --- THE CONSTRUCT (Central Hub) --- */
+    /* This square container holds the entire diagram centered */
+    .construct-container {
+        position: relative;
+        width: 60vmin;
+        height: 60vmin;
+        /* Debug border: border: 1px dashed #333; */
+    }
+
+    /* --- CENTRAL HUB (Diamond) --- */
+    .hub-diamond {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) rotate(45deg);
+        width: 16vmin;
+        height: 16vmin;
+        background: rgba(10, 5, 5, 0.9);
+        border: 2px solid #3d1010;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+        z-index: 5;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Un-rotate text inside the diamond */
+    .hub-content {
+        transform: rotate(-45deg);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5vmin;
+    }
+
+    .hub-val {
+        font-size: 4vmin;
+        color: var(--cp-cyan);
+        font-weight: bold;
+        line-height: 1;
+        text-shadow: 0 0 10px rgba(0, 240, 255, 0.4);
+    }
+
+    .hub-lbl {
+        font-size: 1.5vmin;
+        color: var(--cp-cyan);
+        opacity: 0.7;
+        letter-spacing: 1px;
+    }
+
+    /* --- ATTRIBUTE NODES (The Gems) --- */
+    .attr-node {
+        position: absolute;
+        width: 22vmin;
+        height: 14vmin;
+        /* The Shape: A hexagon with flat top/bottom and pointed sides */
+        clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+        background: var(--cp-red);
+        /* The Border Color */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: transform 0.2s;
+    }
+
+    .attr-node:hover {
+        transform: scale(1.05);
+        z-index: 20;
+    }
+
+    /* Inner black area of the node */
+    .attr-inner {
+        width: 98%;
+        height: 98%;
+        clip-path: polygon(15% 0%, 85% 0%, 100% 50%, 85% 100%, 15% 100%, 0% 50%);
+        background: rgba(10, 0, 0, 0.95);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+    }
+
+    /* Node Content */
+    .node-title {
+        font-size: 1.5vmin;
+        color: var(--cp-cyan);
+        letter-spacing: 1px;
+        margin-bottom: 1vmin;
+        margin-top: 0.5vmin;
+        text-transform: uppercase;
+    }
+
+    .node-data {
+        display: flex;
+        align-items: center;
+        gap: 1.5vmin;
+    }
+
+    .node-icon {
+        font-size: 3.5vmin;
+        color: var(--cp-cyan);
+    }
+
+    .node-val {
+        font-size: 4.5vmin;
+        font-weight: bold;
+        color: white;
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+    }
+
+    .node-sub {
+        font-size: 0.8vmin;
+        color: #666;
+        position: absolute;
+        bottom: 1.5vmin;
+        letter-spacing: 1px;
+    }
+
+    /* --- POSITIONS (Based on Reference Image) --- */
+
+    /* 1. Reflexes: Top Center */
+    .pos-reflexes {
+        top: 0;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    /* 2. Body: Middle Left */
+    .pos-body {
+        top: 30%;
+        left: -5%;
+    }
+
+    /* 3. Tech: Middle Right */
+    .pos-tech {
+        top: 30%;
+        right: -5%;
+    }
+
+    /* 4. Intel: Bottom Left */
+    .pos-intel {
+        bottom: 0;
+        left: 5%;
+    }
+
+    /* 5. Cool: Bottom Right */
+    .pos-cool {
+        bottom: 0;
+        right: 5%;
+    }
+
+
+    /* --- CIRCUIT TRACES (Decor) --- */
+    /* Lines connecting Hub to Nodes */
+    .trace {
+        position: absolute;
+        background: var(--cp-red-dim);
+        z-index: 0;
+        pointer-events: none;
+    }
+
+    /* Vertical Center Trace (Hub to Reflexes) */
+    .trace-vert {
+        top: 15%;
+        left: 50%;
+        width: 2px;
+        height: 20%;
+        transform: translateX(-50%);
+    }
+
+    /* Angled Traces (Hub to Body/Tech) */
+    .trace-body {
+        top: 40%;
+        left: 25%;
+        width: 15%;
+        height: 2px;
+        transform: rotate(25deg);
+    }
+
+    .trace-tech {
+        top: 40%;
+        right: 25%;
+        width: 15%;
+        height: 2px;
+        transform: rotate(-25deg);
+    }
+
+    /* Angled Traces (Hub to Intel/Cool) */
+    .trace-intel {
+        bottom: 35%;
+        left: 28%;
+        width: 15%;
+        height: 2px;
+        transform: rotate(-45deg);
+    }
+
+    .trace-cool {
+        bottom: 35%;
+        right: 28%;
+        width: 15%;
+        height: 2px;
+        transform: rotate(45deg);
+    }
+
+    /* Screen Decor */
+    .scan-line {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background: rgba(0, 240, 255, 0.1);
+        animation: scan 6s linear infinite;
+        pointer-events: none;
+    }
+
+    @keyframes scan {
+        0% {
+            top: 0%;
+            opacity: 0;
+        }
+
+        50% {
+            opacity: 1;
+        }
+
+        100% {
+            top: 100%;
+            opacity: 0;
+        }
+    }
+</style>
+
+<div class="char-interface">
+    <div class="char-sidebar">
+        <h2>SUBJECT: V</h2>
+
+        <div class="stat-block">
+            <span class="stat-lbl">Gender</span>
+            <span class="stat-txt">{{ last_event.get("identity", {}).get("gender") }}</span>
+        </div>
+        <div class="stat-block">
+            <span class="stat-lbl">Lifepath</span>
+            <span class="stat-txt">{{ last_event.get("identity", {}).get("lifepath") }}</span>
+        </div>
+        <div class="stat-block">
+            <span class="stat-lbl">EuroDollars</span>
+            <span class="stat-txt stat-money">{{ "€${:,}".format(last_event.get("economy", {}).get("euroDollars"))
+                }}</span>
+        </div>
+        <div class="stat-block">
+            <span class="stat-lbl">Location</span>
+            <span class="stat-txt">
+                {{ last_event.get("spatial", {}).get("subDistrict") }}<br>
+                <span style="font-size: 0.8em; opacity: 0.7;">{{ last_event.get("spatial", {}).get("district") }}</span>
+            </span>
+        </div>
+        <div class="stat-block">
+            <span class="stat-lbl">Quest</span>
+            <span class="stat-txt">{{ last_event.get("narrative", {}).get("questTitle") }}</span>
+        </div>
+        <div class="stat-block">
+            <span class="stat-lbl">Objective</span>
+            <span class="stat-txt">{{ last_event.get("narrative", {}).get("questObjective") }}</span>
+        </div>
+    </div>
+
+    <div class="char-stage">
+        <div class="scan-line"></div>
+
+        <div style="position: absolute; top: 2rem; left: 2rem;">
+            <h1 style="margin: 0; color: var(--cp-red); font-size: 1.5rem; letter-spacing: 3px;">REZO AGWE // 0x99</h1>
+            <p style="margin: 0; color: #ff8888; font-size: 0.8rem;">> DAEMON: SPECTER</p>
+        </div>
+
+        <div style="position: absolute; top: 2rem; right: 2rem; text-align: right;">
+            <span style="color: var(--cp-red); font-size: 0.8rem; letter-spacing: 1px;">STREET CRED</span>
+            <span style="display: block; font-size: 2rem; color: #ccff00; font-weight: bold;">{{
+                last_event.proficiency.streetCred }}</span>
+        </div>
+
+        <div class="construct-container">
+
+            <div class="trace trace-vert"></div>
+            <div class="trace trace-body"></div>
+            <div class="trace trace-tech"></div>
+            <div class="trace trace-intel"></div>
+            <div class="trace trace-cool"></div>
+
+            <div class="hub-diamond">
+                <div class="hub-content">
+                    <span class="hub-val">{{ last_event.proficiency.level }}</span>
+                    <span class="hub-lbl">LEVEL</span>
+                </div>
+            </div>
+
+            <div class="attr-node pos-reflexes">
+                <div class="attr-inner">
+                    <span class="node-title">Reflexes</span>
+                    <div class="node-data">
+                        <span class="material-symbols-sharp node-icon">filter_center_focus</span>
+                        <span class="node-val">{{ last_event.attributes.reflexes }}</span>
+                    </div>
+                    <span class="node-sub">VALUE</span>
+                </div>
+            </div>
+
+            <div class="attr-node pos-body">
+                <div class="attr-inner">
+                    <span class="node-title">Body</span>
+                    <div class="node-data">
+                        <span class="material-symbols-sharp node-icon">fitness_center</span>
+                        <span class="node-val">{{ last_event.attributes.body }}</span>
+                    </div>
+                    <span class="node-sub">VALUE</span>
+                </div>
+            </div>
+
+            <div class="attr-node pos-tech">
+                <div class="attr-inner">
+                    <span class="node-title">Technical Ability</span>
+                    <div class="node-data">
+                        <span class="material-symbols-sharp node-icon">construction</span>
+                        <span class="node-val">{{ last_event.attributes.tech }}</span>
+                    </div>
+                    <span class="node-sub">VALUE</span>
+                </div>
+            </div>
+
+            <div class="attr-node pos-intel">
+                <div class="attr-inner">
+                    <span class="node-title">Intelligence</span>
+                    <div class="node-data">
+                        <span class="material-symbols-sharp node-icon">memory</span>
+                        <span class="node-val">{{ last_event.attributes.intelligence }}</span>
+                    </div>
+                    <span class="node-sub">VALUE</span>
+                </div>
+            </div>
+
+            <div class="attr-node pos-cool">
+                <div class="attr-inner">
+                    <span class="node-title">Cool</span>
+                    <div class="node-data">
+                        <span class="material-symbols-sharp node-icon">spa</span>
+                        <span class="node-val">{{ last_event.attributes.cool }}</span>
+                    </div>
+                    <span class="node-sub">VALUE</span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

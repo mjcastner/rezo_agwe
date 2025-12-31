@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1 style="margin: 0; color: var(--cp-red); font-size: 1.5rem; letter-spacing: 3px;">REZO AGWE // 0x99</h1>
+<p style="margin: 0; color: #ff8888; font-size: 0.8rem;">> REPORT: SUBJECT BEHAVIORAL PATTERNS</p>
+
+<div style="max-width: 1200px; margin: 60px auto;">
+
+    <div style="margin-bottom: 80px;">
+        <h2
+            style="color: var(--cp-red); border-bottom: 2px solid var(--cp-red); padding-bottom: 10px; margin-bottom: 30px;">
+            // OVERALL BEHAVIORAL PATTERNS
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            {% for behavior, metric in behavior_metadata.items() %}
+            <div class="vdb-card" style="padding: 16px; display: flex; align-items: center; gap: 12px;">
+                <img src={{ behavior_icons[behavior] }} width="100" height="100"></img>
+                <div style="display: flex; flex-direction: column;">
+                    <span style="font-size: 0.75rem; text-transform: uppercase; opacity: 0.8; font-weight: bold;">{{
+                        behavior }}</span>
+                    <span style="font-size: 2rem; font-family: monospace; color: var(--cp-red); margin-top: 5px;">{{
+                        metric }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-bottom: 80px;">
+        <h2
+            style="color: var(--cp-red); border-bottom: 2px solid var(--cp-red); padding-bottom: 10px; margin-bottom: 30px;">
+            // TOP 10 WEAPONS
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            {% for item in favorite_weapons[:10] %}
+            <div class="vdb-card"
+                style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: center;">
+
+                <div
+                    style="background: rgba(255, 0, 0, 0.05); border: 1px solid var(--cp-red); padding: 20px; border-radius: 4px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                    {% if item.icon and item.icon != 'None' %}
+                    <img src="{{ item.icon }}" alt="{{ item.name }}"
+                        style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,0,0,0.5));">
+                    {% else %}
+                    <span style="color: var(--cp-red); font-size: 0.8rem;">[NO IMAGE SIGNAL]</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p
+                        style="margin: 0; font-size: 0.9rem; font-weight: bold; word-break: break-word; text-transform: uppercase;">
+                        {{ item.name.split('.')[-1] | replace('_', ' ') }}
+                    </p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--cp-red);">
+                        USAGE: {{ (item.usage * 100) | round(1) }}%
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-bottom: 80px;">
+        <h2
+            style="color: var(--cp-red); border-bottom: 2px solid var(--cp-red); padding-bottom: 10px; margin-bottom: 30px;">
+            // TOP 10 VEHICLES
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            {% for item in favorite_vehicles[:10] %}
+            <div class="vdb-card"
+                style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: center;">
+
+                <div
+                    style="background: rgba(255, 0, 0, 0.05); border: 1px solid var(--cp-red); padding: 20px; border-radius: 4px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                    {% if item.icon and item.icon != 'None' %}
+                    <img src="{{ item.icon }}" alt="{{ item.name }}"
+                        style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,0,0,0.5));">
+                    {% else %}
+                    <span style="color: var(--cp-red); font-size: 0.8rem;">[NO IMAGE SIGNAL]</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p
+                        style="margin: 0; font-size: 0.9rem; font-weight: bold; word-break: break-word; text-transform: uppercase;">
+                        {{ item.name.split('.')[-1] | replace('_', ' ') }}
+                    </p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--cp-red);">
+                        USAGE: {{ (item.usage * 100) | round(1) }}%
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div style="margin-bottom: 80px;">
+        <h2
+            style="color: var(--cp-red); border-bottom: 2px solid var(--cp-red); padding-bottom: 10px; margin-bottom: 30px;">
+            // DISTRICT ANALYTICS
+        </h2>
+
+        <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px;">
+            {% for item in favorite_districts[:8] %}
+            <div class="vdb-card"
+                style="padding: 16px; display: flex; flex-direction: column; gap: 16px; text-align: center;">
+
+                <div
+                    style="background: rgba(255, 0, 0, 0.05); border: 1px solid var(--cp-red); padding: 20px; border-radius: 4px; height: 150px; display: flex; align-items: center; justify-content: center;">
+                    {% if item.icon and item.icon != 'None' %}
+                    <img src="{{ item.icon }}" alt="{{ item.name }}"
+                        style="max-width: 100%; max-height: 100%; object-fit: contain; filter: drop-shadow(0 0 5px rgba(255,0,0,0.5));">
+                    {% else %}
+                    <span style="color: var(--cp-red); font-size: 0.8rem;">[NO IMAGE SIGNAL]</span>
+                    {% endif %}
+                </div>
+
+                <div>
+                    <p
+                        style="margin: 0; font-size: 0.9rem; font-weight: bold; word-break: break-word; text-transform: uppercase;">
+                        {{ item.name }}
+                    </p>
+                    <p style="margin: 5px 0 0 0; font-size: 0.8rem; color: var(--cp-red);">
+                        TIME SPENT: {{ (item.usage * 100) | round(1) }}%
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+</div>
+{% endblock %}

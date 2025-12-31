@@ -1,0 +1,207 @@
+:root {
+    --vdb-bg: #050000;
+    --vdb-surface: #0a0202;
+    --vdb-red-bright: #ff0000;
+    --vdb-red-dim: #3d0000;
+    --vdb-text-dim: #661111;
+    --vdb-text-bright: #ff3e3e;
+}
+
+body {
+    margin: 0;
+    background-color: var(--vdb-bg);
+    color: var(--vdb-text-bright);
+    font-family: 'Fira Code', monospace;
+    height: 100vh;
+    display: flex;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+}
+
+/* --- CUSTOM RAIL LAYOUT --- */
+.vdb-rail {
+    width: 80px;
+    /* Fixed width like standard M3 Rail */
+    height: 100%;
+    background-color: var(--vdb-bg);
+    border-right: 1px solid var(--vdb-red-dim);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    z-index: 100;
+    /* Ensure it sits above scanlines if needed */
+}
+
+/* 1. Header: Menu + FAB */
+.rail-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    /* Gap between Menu and FAB */
+    margin-bottom: 40px;
+    /* Gap between Header and Nav Items */
+}
+
+/* Standard Icon Button (Menu, Power) */
+.icon-btn {
+    background: none;
+    border: none;
+    color: var(--vdb-text-dim);
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%;
+    transition: color 0.2s, background 0.2s;
+}
+
+.icon-btn:hover {
+    color: var(--vdb-red-bright);
+    background-color: rgba(255, 0, 0, 0.1);
+}
+
+.icon-btn .material-symbols-sharp {
+    font-size: 24px;
+}
+
+/* FAB (The Bolt) - Matches the Square/Squircle look */
+.fab-btn {
+    width: 56px;
+    height: 56px;
+    background-color: var(--vdb-red-bright);
+    color: #000;
+    /* Black icon on Red bg */
+    border: none;
+    border-radius: 16px;
+    /* Squircle shape */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.4);
+    transition: transform 0.1s;
+}
+
+.fab-btn:active {
+    transform: scale(0.95);
+}
+
+.fab-btn .material-symbols-sharp {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* 2. Nav Items Container */
+.rail-nav-items {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    /* Spacing between nav items */
+    width: 100%;
+    align-items: center;
+}
+
+/* Individual Nav Item */
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    /* Fixed height for touch target */
+    text-decoration: none;
+    position: relative;
+    /* For positioning the indicator */
+    color: var(--vdb-text-dim);
+    transition: color 0.2s;
+}
+
+.nav-label {
+    font-size: 10px;
+    margin-top: 4px;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+/* The "Pill" Active Indicator */
+.nav-indicator {
+    position: absolute;
+    width: 56px;
+    height: 32px;
+    background-color: var(--vdb-red-dim);
+    border-radius: 16px;
+    top: 0;
+    /* Align to top of the grouping */
+    z-index: -1;
+    /* Sit behind the icon */
+    opacity: 0;
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+/* Active State Styling */
+.nav-item.active {
+    color: var(--vdb-red-bright);
+}
+
+.nav-item.active .nav-indicator {
+    opacity: 1;
+    /* Show the pill */
+}
+
+.nav-item.active .nav-icon {
+    font-variation-settings: 'FILL' 1;
+    /* Make icon filled if variable font supports it */
+}
+
+/* 3. Footer */
+.rail-footer {
+    margin-top: auto;
+    /* Push to bottom */
+}
+
+/* --- CONTENT AREA (Unchanged) --- */
+.content-area {
+    flex-grow: 1;
+    padding: 24px;
+    overflow-y: auto;
+    background-image:
+        linear-gradient(rgba(10, 2, 2, 0.95), rgba(10, 2, 2, 0.95)),
+        repeating-linear-gradient(0deg, transparent, transparent 1px, #ff000015 1px, #ff000015 2px);
+    background-size: cover;
+}
+
+.vdb-card {
+    background-color: rgba(20, 0, 0, 0.6);
+    border: 1px solid var(--vdb-red-bright);
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.1);
+}
+
+h1,
+h2,
+h3 {
+    text-transform: uppercase;
+    color: var(--vdb-red-bright);
+    text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
+}
+
+/* Scanlines */
+.scanlines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(255, 255, 255, 0) 50%, rgba(0, 0, 0, 0.2) 50%, rgba(0, 0, 0, 0.2));
+    background-size: 100% 4px;
+    pointer-events: none;
+    z-index: 999;
+}

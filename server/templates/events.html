@@ -1,0 +1,379 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="archive-container">
+
+    <div class="archive-header">
+        <div class="header-title">
+            <h1 class="glitch-text" data-text="EVENTS // ARCHIVE">REZO_AGWE // SPECTER PINGS</h1>
+            <div class="subtitle">SURVEILLANCE_LOGS // SUBJECT_V // {{ events|length }} EVENTS OF {{ total_events }}
+                TOTAL RECORDS</div>
+        </div>
+
+        <div class="header-actions">
+            <a href="/events/export/csv" class="cyber-btn">EXPORT_ALL_CSV</a>
+            <a href="/events/export/json" class="cyber-btn">EXPORT_ALL_JSON</a>
+        </div>
+    </div>
+
+    <div class="data-grid-header">
+        <div class="col-sts"></div>
+        <div class="col-ts">T_STAMP</div>
+        <div class="col-img">VEH</div>
+        <div class="col-img">WPN</div>
+        <div class="col-loc">LOC_DATA</div>
+        <div class="col-meta">STATS</div>
+        <div class="col-log">NARRATIVE</div>
+    </div>
+
+    <div class="data-feed">
+        {% for event in events %}
+
+        {# --- Date Continuity Separator --- #}
+        {% if loop.changed(event.timestamp[:10]) %}
+        <div class="date-separator">
+            <span>// DATE_LOG: {{ event.timestamp[:10] }}</span>
+            <div class="date-line"></div>
+        </div>
+        {% endif %}
+
+        <div class="data-row {% if event.status.isCombat %}combat-active{% endif %}">
+
+            <div class="col-sts">
+                {% if event.status.isDead %}
+                <svg class="skull-icon" viewBox="0 0 24 24">
+                    <path
+                        d="M12 2C7 2 3 6 3 11C3 14 5 17 8 19V22H16V19C19 17 21 14 21 11C21 6 17 2 12 2ZM9 20V18H15V20H9ZM12 16C10 16 9 15 9 15C9 15 10 14 12 14C14 14 15 15 15 15C15 15 14 16 12 16ZM8 12C7 12 6 11 6 10C6 9 7 8 8 8C9 8 10 9 10 10C10 11 9 12 8 12ZM16 12C15 12 14 11 14 10C14 9 15 8 16 8C17 8 18 9 18 10C18 11 17 12 16 12Z" />
+                </svg>
+                {% endif %}
+            </div>
+
+            <div class="col-ts ts-style">
+                {{ event.timestamp[11:19] }}
+            </div>
+
+            <div class="col-img">
+                {% if event.loadout.equippedVehicleIcon and event.loadout.equippedVehicleIcon != 'None' %}
+                <img src="{{ event.loadout.equippedVehicleIcon }}" class="item-icon" alt="Vehicle"
+                    title="{{ event.loadout.equippedVehicle }}">
+                {% else %}
+                <span class="no-asset">-</span>
+                {% endif %}
+            </div>
+
+            <div class="col-img">
+                {% if event.loadout.activeWeaponIcon and event.loadout.activeWeaponIcon != 'None' %}
+                <img src="{{ event.loadout.activeWeaponIcon }}" class="item-icon" alt="Weapon"
+                    title="{{ event.loadout.activeWeapon }}">
+                {% else %}
+                <span class="no-asset">-</span>
+                {% endif %}
+            </div>
+
+            <div class="col-loc">
+                <div class="loc-wrapper">
+                    <svg class="loc-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                        <circle cx="12" cy="10" r="3"></circle>
+                    </svg>
+                    <div>
+                        <div class="loc-primary">{{ event.spatial.district }}</div>
+                        <div class="loc-secondary">{{ event.spatial.subDistrict }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-meta meta-group">
+                <div class="meta-row">LVL: <span>{{ event.proficiency.level }}</span></div>
+                <div class="meta-row">SC: <span>{{ event.proficiency.streetCred }}</span></div>
+                <div class="meta-money">€$ {{ "{:,}".format(event.economy.euroDollars) }}</div>
+            </div>
+
+            <div class="col-log">
+                <div class="log-primary">{{ event.narrative.questTitle }}</div>
+                <div class="log-secondary">
+                    > {{ event.narrative.questObjective }}
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="empty-state">
+            NO DATA FOUND IN ARCHIVE BUFFER.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* --- LOCAL LAYOUT STYLES --- */
+
+    .archive-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem 2rem;
+        background-color: #050505;
+        color: #ff3c3c;
+        font-family: 'Fira Code', monospace;
+        overflow: hidden;
+    }
+
+    .archive-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #ff3c3c;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+    }
+
+    .header-title h1 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        margin: 0;
+        text-shadow: 2px 0 #fff, -2px 0 #00ffff;
+    }
+
+    .subtitle {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        letter-spacing: 0.2em;
+        margin-top: 0.25rem;
+    }
+
+    .cyber-btn {
+        border: 1px solid #ff3c3c;
+        color: #ff3c3c;
+        padding: 0.5rem 1.5rem;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        transition: all 0.2s;
+        text-transform: uppercase;
+        display: inline-block;
+    }
+
+    .cyber-btn:hover {
+        background-color: #ff3c3c;
+        color: #000;
+        box-shadow: 0 0 10px rgba(255, 60, 60, 0.5);
+    }
+
+    /* --- GRID SYSTEM --- */
+    /* Updated Columns (7 Total):
+       1. Status (30px)
+       2. Timestamp (0.7fr)
+       3. Vehicle (0.5fr)
+       4. Weapon (0.5fr)
+       5. Location (1.5fr)
+       6. Stats (1.2fr)
+       7. Narrative (3fr)
+    */
+    .data-grid-header,
+    .data-row {
+        display: grid;
+        grid-template-columns: 30px 0.7fr 0.5fr 0.5fr 1.5fr 1.2fr 3fr;
+        gap: 0.75rem;
+        align-items: center;
+        padding: 0 0.5rem;
+    }
+
+    .data-grid-header {
+        font-size: 0.7rem;
+        font-weight: bold;
+        opacity: 0.6;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+    }
+
+    .data-feed {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-right: 0.5rem;
+    }
+
+    .data-row {
+        padding: 0.75rem 0.5rem;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.1);
+        font-size: 0.8rem;
+        transition: all 0.2s;
+    }
+
+    .data-row:hover {
+        background-color: rgba(255, 60, 60, 0.05);
+    }
+
+    .combat-active {
+        background-color: rgba(255, 0, 0, 0.15);
+        border-left: 2px solid #ff0000;
+    }
+
+    /* --- DATE SEPARATOR --- */
+    .date-separator {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        padding-left: 0.5rem;
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+    }
+
+    .date-line {
+        height: 1px;
+        background: linear-gradient(90deg, #ff3c3c 0%, rgba(255, 60, 60, 0) 100%);
+        flex-grow: 1;
+    }
+
+    /* --- COLUMNS --- */
+
+    /* Status Icon */
+    .col-sts {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .skull-icon {
+        width: 18px;
+        height: 18px;
+        fill: #ff0000;
+        /* Hardcoded red to ensure visibility */
+        filter: drop-shadow(0 0 5px #ff0000);
+        animation: pulse 2s infinite;
+        display: block;
+        /* Ensure it takes up space */
+    }
+
+    @keyframes pulse {
+        0% {
+            opacity: 0.8;
+        }
+
+        50% {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px #ff0000);
+        }
+
+        100% {
+            opacity: 0.8;
+        }
+    }
+
+    .ts-style {
+        opacity: 0.7;
+        font-size: 0.75rem;
+    }
+
+    /* Image Columns (Veh & Wpn) */
+    .col-img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .item-icon {
+        max-width: 100%;
+        max-height: 40px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 2px rgba(255, 60, 60, 0.5));
+    }
+
+    .no-asset {
+        opacity: 0.3;
+    }
+
+    /* Location */
+    .loc-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .loc-icon {
+        width: 16px;
+        height: 16px;
+        flex-shrink: 0;
+        stroke: #ff3c3c;
+        opacity: 0.8;
+    }
+
+    .loc-primary {
+        font-weight: bold;
+        color: #ffcccc;
+        line-height: 1.1;
+    }
+
+    .loc-secondary {
+        font-size: 0.65rem;
+        text-transform: uppercase;
+        opacity: 0.6;
+        line-height: 1.1;
+    }
+
+    /* Stats */
+    .meta-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        font-size: 0.7rem;
+        gap: 2px;
+    }
+
+    .meta-row span {
+        color: #fff;
+    }
+
+    .meta-money {
+        grid-column: 1 / -1;
+        color: #ffd700;
+        font-weight: bold;
+    }
+
+    /* Narrative */
+    .log-primary {
+        font-weight: bold;
+        color: #ffcccc;
+        font-size: 0.75rem;
+        margin-bottom: 0.2rem;
+    }
+
+    .log-secondary {
+        white-space: normal;
+        word-wrap: break-word;
+        opacity: 0.7;
+        font-size: 0.7rem;
+        font-style: italic;
+        line-height: 1.3;
+    }
+
+    /* Scrollbar */
+    .data-feed::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .data-feed::-webkit-scrollbar-track {
+        background: #1a0b0b;
+    }
+
+    .data-feed::-webkit-scrollbar-thumb {
+        background: #ff3c3c;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding-top: 3rem;
+        opacity: 0.5;
+        letter-spacing: 2px;
+    }
+</style>
+{% endblock %}

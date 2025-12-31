@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>REZO AGWE // ACCESS POINT</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Sharp:opsz,wght,FILL,GRAD@24,400,1,0"
+        rel="stylesheet" />
+
+    <script type="importmap">
+      { "imports": { "@material/web/": "https://esm.run/@material/web/" } }
+    </script>
+    <script type="module">
+        import '@material/web/all.js';
+        import { styles as typescaleStyles } from '@material/web/typography/md-typescale-styles.js';
+        document.adoptedStyleSheets.push(typescaleStyles.styleSheet);
+    </script>
+
+    <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+</head>
+
+<body>
+    <div class="scanlines"></div>
+    <div class="app-container">
+        <nav class="vdb-rail">
+            <div class="rail-nav-items">
+                <a href="/" class="nav-item {% if active_page == 'dashboard' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">fingerprint</span>
+                    <span class="nav-label">Subject</span>
+                </a>
+
+                <a href="/map" class="nav-item {% if active_page == 'map' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">map</span>
+                    <span class="nav-label">Map</span>
+                </a>
+
+                <a href="/locations" class="nav-item {% if active_page == 'locations' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">gps_not_fixed</span>
+                    <span class="nav-label">Locations</span>
+                </a>
+
+                <a href="/insights" class="nav-item {% if active_page == 'insights' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">data_exploration</span>
+                    <span class="nav-label">Insights</span>
+                </a>
+
+                <a href="/quests" class="nav-item {% if active_page == 'quests' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">auto_stories</span>
+                    <span class="nav-label">Quests</span>
+                </a>
+
+                <a href="/events" class="nav-item {% if active_page == 'events' %}active{% endif %}">
+                    <div class="nav-indicator"></div>
+                    <span class="material-symbols-sharp nav-icon">calendar_month</span>
+                    <span class="nav-label">Archive</span>
+                </a>
+            </div>
+        </nav>
+
+        <main class="content-area">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+
+</html>

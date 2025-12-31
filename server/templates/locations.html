@@ -1,0 +1,331 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="archive-container">
+
+    <div class="archive-header">
+        <div class="header-title">
+            <h1 class="glitch-text" data-text="SPATIAL // ANALYTICS">REZO_AGWE // SPATIAL LOGS</h1>
+            <div class="subtitle">TRACKING_DATA // {{ locations|length }} REGIONS OF INTEREST IDENTIFIED</div>
+        </div>
+    </div>
+
+    {# --- Grid Headers --- #}
+    <div class="data-grid-header">
+        <div class="col-rank">#</div>
+        <div class="col-icon">ICON</div>
+        <div class="col-dist">DISTRICT_KEY</div>
+        <div class="col-poi">TOP_POI_REF</div>
+        <div class="col-coords">VECTOR (X, Y, Z)</div>
+        <div class="col-time">DWELL_TIME (%)</div>
+    </div>
+
+    <div class="data-feed">
+        {% for loc in locations %}
+
+        {# Calculate percentage for display #}
+        {% set percent = (loc.time_spent * 100)|round(1) %}
+
+        <div class="data-row {% if loop.index <= 3 %}top-tier{% endif %}">
+
+            {# 1. Rank #}
+            <div class="col-rank">
+                <span class="rank-num">{{ loop.index }}</span>
+            </div>
+
+            {# 2. Icon (Dynamic Mapping) #}
+            <div class="col-icon">
+                {# Maps 'City Center' -> 'city_center.png' #}
+                <img src="{{ url_for('static', path='images/icons/districts/' + loc.location|lower|replace(' ', '_') + '.png') }}"
+                    class="district-icon" alt="{{ loc.location }}" onerror="this.style.display='none';">
+            </div>
+
+            {# 3. District Name #}
+            <div class="col-dist">
+                <div class="dist-primary">{{ loc.location }}</div>
+            </div>
+
+            {# 4. Specific POI #}
+            <div class="col-poi">
+                <div class="poi-name">{{ loc.name }}</div>
+            </div>
+
+            {# 5. Coordinates & Map Link #}
+            <div class="col-coords">
+                {# Eyeball Link #}
+                <a href="{{ url_for('map') }}?x={{ loc.x|int }}&y={{ loc.y|int }}&z={{ loc.z|int }}" class="eye-link"
+                    title="INITIATE_SATELLITE_VIEW">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </a>
+
+                <div class="coord-group">
+                    <span class="coord-val">X:{{ loc.x|int }}</span>
+                    <span class="coord-val">Y:{{ loc.y|int }}</span>
+                    <span class="coord-val">Z:{{ loc.z|int }}</span>
+                </div>
+            </div>
+
+            {# 6. Time Heatmap #}
+            <div class="col-time">
+                <div class="time-wrapper">
+                    <div class="progress-track">
+                        <div class="progress-fill" style="width: {{ percent }}%;"></div>
+                    </div>
+                    <span class="time-val">{{ percent }}%</span>
+                </div>
+            </div>
+
+        </div>
+        {% else %}
+        <div class="empty-state">
+            NO SPATIAL DATA AVAILABLE.
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    /* --- LAYOUT & CONTAINERS --- */
+    .archive-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        padding: 1rem 2rem;
+        background-color: #050505;
+        color: #ff3c3c;
+        font-family: 'Fira Code', monospace;
+        overflow: hidden;
+    }
+
+    .archive-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        border-bottom: 2px solid #ff3c3c;
+        padding-bottom: 1rem;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+    }
+
+    .header-title h1 {
+        font-size: 2.5rem;
+        font-weight: 900;
+        letter-spacing: 0.1em;
+        margin: 0;
+        text-shadow: 2px 0 #fff, -2px 0 #00ffff;
+    }
+
+    .subtitle {
+        font-size: 0.75rem;
+        opacity: 0.7;
+        letter-spacing: 0.2em;
+        margin-top: 0.25rem;
+    }
+
+    .cyber-btn {
+        border: 1px solid #ff3c3c;
+        color: #ff3c3c;
+        padding: 0.5rem 1.5rem;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: bold;
+        letter-spacing: 0.1em;
+        transition: all 0.2s;
+        text-transform: uppercase;
+    }
+
+    .cyber-btn:hover {
+        background-color: #ff3c3c;
+        color: #000;
+        box-shadow: 0 0 15px rgba(255, 60, 60, 0.6);
+    }
+
+    /* --- GRID CONFIGURATION --- */
+    /* Columns: Rank, Icon, District, POI, Coords, Time bar */
+    .data-grid-header,
+    .data-row {
+        display: grid;
+        grid-template-columns: 40px 60px 1.2fr 1.5fr 1.5fr 2fr;
+        gap: 1rem;
+        align-items: center;
+        padding: 0 0.5rem;
+    }
+
+    .data-grid-header {
+        font-size: 0.7rem;
+        font-weight: bold;
+        opacity: 0.6;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.3);
+        padding-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
+        letter-spacing: 0.1em;
+        flex-shrink: 0;
+    }
+
+    .data-feed {
+        overflow-y: auto;
+        flex-grow: 1;
+        padding-right: 0.5rem;
+    }
+
+    .data-row {
+        padding: 0.6rem 0.5rem;
+        border-bottom: 1px solid rgba(255, 60, 60, 0.1);
+        font-size: 0.8rem;
+        transition: background-color 0.2s;
+    }
+
+    .data-row:hover {
+        background-color: rgba(255, 60, 60, 0.08);
+    }
+
+    /* Highlight top 3 locations */
+    .top-tier {
+        border-left: 2px solid #ffd700;
+        background: linear-gradient(90deg, rgba(255, 215, 0, 0.05) 0%, transparent 100%);
+    }
+
+    /* --- COLUMN STYLES --- */
+
+    /* Rank */
+    .col-rank {
+        font-weight: bold;
+        opacity: 0.5;
+        text-align: center;
+    }
+
+    /* Icon */
+    .col-icon {
+        display: flex;
+        justify-content: center;
+    }
+
+    .district-icon {
+        width: 32px;
+        height: 32px;
+        object-fit: contain;
+        filter: drop-shadow(0 0 2px rgba(255, 60, 60, 0.8));
+    }
+
+    /* District Text */
+    .dist-primary {
+        font-weight: 900;
+        color: #ffcccc;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+    }
+
+    /* POI Text */
+    .poi-name {
+        color: #fff;
+        opacity: 0.8;
+    }
+
+    /* Coordinates Column */
+    .col-coords {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    /* Eyeball Icon Link */
+    .eye-link {
+        color: #ff3c3c;
+        opacity: 0.6;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+    }
+
+    .eye-link svg {
+        width: 18px;
+        height: 18px;
+    }
+
+    .eye-link:hover {
+        opacity: 1;
+        color: #00ffff;
+        /* Cyber cyan on hover */
+        filter: drop-shadow(0 0 5px #00ffff);
+        transform: scale(1.1);
+    }
+
+    /* Coordinate Values */
+    .coord-group {
+        font-family: 'Fira Code', monospace;
+        font-size: 0.7rem;
+        display: flex;
+        gap: 0.4rem;
+        color: #888;
+    }
+
+    .coord-val {
+        background: rgba(255, 60, 60, 0.1);
+        padding: 2px 4px;
+        border-radius: 2px;
+        white-space: nowrap;
+    }
+
+    /* Time Bar (Heatmap) */
+    .time-wrapper {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .progress-track {
+        flex-grow: 1;
+        height: 6px;
+        background: rgba(255, 60, 60, 0.2);
+        position: relative;
+        border-radius: 1px;
+    }
+
+    .progress-fill {
+        height: 100%;
+        background-color: #ff3c3c;
+        box-shadow: 0 0 8px #ff3c3c;
+        position: relative;
+    }
+
+    /* Glitch effect on the bar end */
+    .progress-fill::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: -2px;
+        bottom: -2px;
+        width: 2px;
+        background: #fff;
+    }
+
+    .time-val {
+        width: 45px;
+        text-align: right;
+        font-weight: bold;
+        color: #ffd700;
+    }
+
+    /* Scrollbar */
+    .data-feed::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .data-feed::-webkit-scrollbar-track {
+        background: #1a0b0b;
+    }
+
+    .data-feed::-webkit-scrollbar-thumb {
+        background: #ff3c3c;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding-top: 3rem;
+        opacity: 0.5;
+    }
+</style>
+{% endblock %}
