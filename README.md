@@ -26,7 +26,51 @@ you notice it slowing down too much over time.
 | Quests | Tracks quests and objectives that your character has seen in-game. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/quests.gif" width="300"> |
 | Archive | Allows you to export all data to JSON or CSV. | <img src="https://raw.githubusercontent.com/mjcastner/rezo_agwe/refs/heads/main/server/static/images/demo/archive.gif" width="300"> |
 
-## Getting started
+## Getting started (User)
+
+1. Install the mod component from [Nexus Mods](https://www.nexusmods.com/cyberpunk2077/mods/27268?tab=description).
+2. Install [Docker Desktop](https://www.docker.com/)
+3. Find your game root directory
+    - On Windows (Steam), this defaults to: C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077
+    - On Windows (GoG), this defaults to: C:\Program Files (x86)\GOG Galaxy\Games\Cyberpunk 2077
+    - On Mac, this defaults to: ~/Library/Application Support/Steam/steamapps/common/Cyberpunk 2077
+    - On Linux, this defaults to: ~/.local/share/Steam/steamapps/common/Cyberpunk 2077
+    - You may have a non-standard install location, you need to know it to use this.
+4. Run the second-screen web server
+
+**Windows (Steam)**
+```
+docker run \
+-p 8080:8080 \
+-v "C:\Program Files (x86)\Steam\steamapps\common\Cyberpunk 2077:/game_data:ro" \
+ghcr.io/mjcastner/rezo_agwe:latest
+```
+
+**Windows (GoG)**
+```
+docker run \
+-p 8080:8080 \
+-v "C:\Program Files (x86)\GOG Galaxy\Games\Cyberpunk 2077:/game_data:ro" \
+ghcr.io/mjcastner/rezo_agwe:latest
+```
+
+**Mac**
+```
+docker run \
+-p 8080:8080 \
+-v "$HOME/Library/Application Support/Steam/steamapps/common/Cyberpunk 2077:/game_data:ro" \
+ghcr.io/mjcastner/rezo_agwe:latest
+```
+
+**Linux**
+```
+docker run \
+-p 8080:8080 \
+-v "$HOME/.local/share/Steam/steamapps/common/Cyberpunk 2077:/game_data:ro" \
+ghcr.io/mjcastner/rezo_agwe:latest
+```
+
+## Getting started (Development)
 ### 1. Clone the repository
 
 ```
