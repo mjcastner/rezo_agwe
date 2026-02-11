@@ -546,6 +546,18 @@
         z-index: 1000 !important;
     }
 
+    .custom-location-marker-icon,
+    .custom-quest-marker-icon {
+        filter: drop-shadow(0 0 4px rgba(0, 240, 255, 0.6)) drop-shadow(0 0 8px rgba(0, 240, 255, 0.3));
+        transition: all 0.2s;
+    }
+
+    .custom-location-marker-icon:hover,
+    .custom-quest-marker-icon:hover {
+        filter: drop-shadow(0 0 8px rgba(0, 240, 255, 1)) drop-shadow(0 0 16px rgba(0, 240, 255, 0.6));
+        transform: scale(1.1);
+    }
+
     .custom-selected-marker {
         z-index: 2000 !important;
     }
@@ -785,6 +797,10 @@
                     <span class="material-icons">location_on</span>
                     LOCATIONS
                 </button>
+                <button class="tab-btn" data-tab="quests">
+                    <span class="material-icons">task_alt</span>
+                    QUESTS
+                </button>
             </div>
 
             <!-- Status Tab Content -->
@@ -939,7 +955,90 @@
                 <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--cp-border);">
                     <button id="btnToggleMarkers" class="cyber-btn" style="width: 100%;">
                         <span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility</span>
-                        SHOW ALL MARKERS
+                        SHOW MARKERS
+                    </button>
+                </div>
+            </div>
+
+            <!-- Quests Tab Content -->
+            <div class="tab-content" id="tab-quests">
+                <div style="margin-bottom: 1rem;">
+                    <div class="stat-row" style="border-bottom: 1px solid var(--cp-border); padding-bottom: 0.5rem;">
+                        <span class="stat-lbl">QUEST OBJECTIVES</span>
+                        <span id="quest-count" class="stat-val stat-cyan"><span id="quest-filtered-count">0</span>/<span id="quest-total-count">0</span></span>
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 1rem;">
+                    <input type="text" id="questSearch" placeholder="SEARCH QUESTS..."
+                        style="width: 100%; background: rgba(0,0,0,0.5); border: 1px solid var(--cp-red); color: var(--cp-cyan); padding: 8px; font-family: 'Fira Code', monospace; font-size: 0.75rem; text-transform: uppercase;">
+                </div>
+
+                <!-- Quest Filters -->
+                <div style="margin-bottom: 1rem; background: rgba(0,0,0,0.3); border: 1px solid var(--cp-border); padding: 10px;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; cursor: pointer;" id="filterToggleHeader">
+                        <span class="stat-lbl" style="display: flex; align-items: center; gap: 4px;">
+                            <span class="material-icons" style="font-size: 14px;">filter_list</span>
+                            FILTERS
+                        </span>
+                        <span id="activeFilterCount" class="stat-val stat-cyan" style="font-size: 0.7rem;">0 active</span>
+                    </div>
+
+                    <div id="filterControls" style="display: none;">
+                        <div style="margin-bottom: 8px;">
+                            <label class="stat-lbl" style="font-size: 0.65rem; display: block; margin-bottom: 4px;">QUEST NAME</label>
+                            <select id="filterQuestName" class="cyber-select" style="width: 100%; font-size: 0.7rem; padding: 6px;">
+                                <option value="">All Quests</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <label class="stat-lbl" style="font-size: 0.65rem; display: block; margin-bottom: 4px;">QUEST TYPE</label>
+                            <select id="filterQuestType" class="cyber-select" style="width: 100%; font-size: 0.7rem; padding: 6px;">
+                                <option value="">All Types</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <label class="stat-lbl" style="font-size: 0.65rem; display: block; margin-bottom: 4px;">OBJECTIVE TYPE</label>
+                            <select id="filterObjectiveType" class="cyber-select" style="width: 100%; font-size: 0.7rem; padding: 6px;">
+                                <option value="">All Objectives</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <label class="stat-lbl" style="font-size: 0.65rem; display: block; margin-bottom: 4px;">DISTRICT</label>
+                            <select id="filterDistrict" class="cyber-select" style="width: 100%; font-size: 0.7rem; padding: 6px;">
+                                <option value="">All Districts</option>
+                            </select>
+                        </div>
+
+                        <div style="margin-bottom: 8px;">
+                            <label class="stat-lbl" style="font-size: 0.65rem; display: block; margin-bottom: 4px;">LEVEL RANGE</label>
+                            <div style="display: flex; gap: 5px; align-items: center;">
+                                <input type="number" id="filterLevelMin" placeholder="Min" min="0" max="100"
+                                    style="width: 50%; background: rgba(0,0,0,0.5); border: 1px solid var(--cp-red); color: var(--cp-cyan); padding: 6px; font-family: 'Fira Code', monospace; font-size: 0.7rem;">
+                                <span style="color: #666;">-</span>
+                                <input type="number" id="filterLevelMax" placeholder="Max" min="0" max="100"
+                                    style="width: 50%; background: rgba(0,0,0,0.5); border: 1px solid var(--cp-red); color: var(--cp-cyan); padding: 6px; font-family: 'Fira Code', monospace; font-size: 0.7rem;">
+                            </div>
+                        </div>
+
+                        <button id="btnClearFilters" class="cyber-btn" style="width: 100%; font-size: 0.7rem; padding: 6px;">
+                            <span class="material-icons" style="font-size: 14px; margin-right: 4px;">clear_all</span>
+                            CLEAR FILTERS
+                        </button>
+                    </div>
+                </div>
+
+                <div id="quests-list" style="overflow-y: auto; max-height: calc(100vh - 550px); display: flex; flex-direction: column; gap: 8px;">
+                    <!-- Quest items will be populated here -->
+                </div>
+
+                <div style="margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--cp-border);">
+                    <button id="btnToggleQuestMarkers" class="cyber-btn" style="width: 100%;">
+                        <span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility</span>
+                        SHOW MARKERS
                     </button>
                 </div>
             </div>
@@ -1037,6 +1136,23 @@
     var markersVisible = false;
     var selectedLocationId = null;
     var selectedLocationMarker = null;
+    var currentFilteredLocations = [];
+
+    // --- QUESTS STATE ---
+    var questsData = [];
+    var questObjectivesWithCoords = [];
+    var questMarkers = [];
+    var questMarkersVisible = false;
+    var selectedQuestId = null;
+    var selectedQuestMarker = null;
+    var questFilters = {
+        questName: '',
+        questType: '',
+        objectiveType: '',
+        district: '',
+        levelMin: null,
+        levelMax: null
+    };
 
     // UI References
     const ui = {
@@ -1299,9 +1415,9 @@
         document.getElementById('chkFollow').checked = true;
         isFollowing = true;
 
-        // Start polling every 3 seconds
+        // Start polling every second
         fetchNewEvents(); // Immediate fetch
-        livePollingTimer = setInterval(fetchNewEvents, 3000);
+        livePollingTimer = setInterval(fetchNewEvents, 1000);
 
         console.log('[LIVE] Live mode activated');
     }
@@ -1349,11 +1465,23 @@
                 loadLocations();
             }
 
+            // Load quests if switching to quests tab
+            if (tabName === 'quests' && questsData.length === 0) {
+                loadQuests();
+            }
+
             // Clear selected location marker when switching to status tab
             if (tabName === 'status' && selectedLocationMarker) {
                 map.removeLayer(selectedLocationMarker);
                 selectedLocationMarker = null;
                 selectedLocationId = null;
+            }
+
+            // Clear selected quest marker when switching away from quests tab
+            if (tabName !== 'quests' && selectedQuestMarker) {
+                map.removeLayer(selectedQuestMarker);
+                selectedQuestMarker = null;
+                selectedQuestId = null;
             }
         });
     });
@@ -1377,6 +1505,9 @@
         const container = document.getElementById('locations-list');
         container.innerHTML = '';
 
+        // Store current filtered locations
+        currentFilteredLocations = locations;
+
         locations.forEach(loc => {
             const item = document.createElement('div');
             item.className = 'location-item';
@@ -1394,6 +1525,11 @@
             item.addEventListener('click', () => selectLocation(loc));
             container.appendChild(item);
         });
+
+        // Update markers if they're currently visible
+        if (markersVisible) {
+            updateLocationMarkers(locations);
+        }
     }
 
     function selectLocation(loc) {
@@ -1416,17 +1552,17 @@
             selectedLocationMarker = null;
         }
 
-        // Create selected location marker (larger, more prominent)
+        // Create selected location marker (larger, more prominent) using the appropriate icon
         const selectedIcon = L.divIcon({
             className: 'custom-selected-marker',
             html: `
                 <div style="position: relative;">
-                    <div style="background: var(--cp-cyan); width: 16px; height: 16px; border-radius: 50%; border: 3px solid var(--cp-red); box-shadow: 0 0 20px rgba(0, 240, 255, 1), 0 0 40px rgba(0, 240, 255, 0.5); animation: pulse-marker 2s infinite;"></div>
+                    <img src="${getLocationIcon(loc).options.iconUrl}" style="width: 32px; height: 32px; filter: drop-shadow(0 0 10px var(--cp-cyan)) drop-shadow(0 0 20px var(--cp-cyan)); animation: pulse-marker 2s infinite;" />
                     <div style="position: absolute; top: -30px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: rgba(0, 240, 255, 0.9); color: #000; padding: 4px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; pointer-events: none;">${(loc.wiki_name || loc.name).replace(/^(BL FT|CC FT|DT FT|HW FT|PC FT|SD FT|WT FT|WB FT)\s+/, '')}</div>
                 </div>
             `,
-            iconSize: [16, 16],
-            iconAnchor: [8, 8]
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
         });
 
         selectedLocationMarker = L.marker(latlng, {
@@ -1474,31 +1610,45 @@
             btn.classList.add('active');
         } else {
             hideLocationMarkers();
-            btn.innerHTML = '<span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility</span>SHOW ALL MARKERS';
+            btn.innerHTML = '<span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility</span>SHOW MARKERS';
             btn.classList.remove('active');
         }
     }
 
-    function showLocationMarkers() {
+    function getLocationIcon(loc) {
+        const name = (loc.wiki_name || loc.name || '').toLowerCase();
+
+        // Determine icon based on location type
+        let iconPath = '/static/images/icons/misc/poi.png'; // Default
+
+        if (name.includes('tarot')) {
+            iconPath = '/static/images/icons/misc/tarot.png';
+        } else if (name.includes('ncpd')) {
+            iconPath = '/static/images/icons/misc/ncpd.png';
+        }
+
+        return L.icon({
+            iconUrl: iconPath,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -12],
+            className: 'custom-location-marker-icon'
+        });
+    }
+
+    function updateLocationMarkers(locations) {
         // Clear existing markers
         hideLocationMarkers();
 
-        // Create custom icon
-        const locationIcon = L.divIcon({
-            className: 'custom-location-marker',
-            html: '<div style="background: var(--cp-red); width: 12px; height: 12px; border-radius: 50%; border: 2px solid var(--cp-cyan); box-shadow: 0 0 10px rgba(255, 94, 94, 0.8);"></div>',
-            iconSize: [12, 12],
-            iconAnchor: [6, 6]
-        });
-
-        locationsData.forEach(loc => {
+        // Show markers only for the provided locations
+        locations.forEach(loc => {
             const latlng = gameToLatLng(loc.x, loc.y);
             if (!latlng) return;
 
             const shortName = (loc.wiki_name || loc.name).replace(/^(BL FT|CC FT|DT FT|HW FT|PC FT|SD FT|WT FT|WB FT)\s+/, '');
 
             const marker = L.marker(latlng, {
-                icon: locationIcon,
+                icon: getLocationIcon(loc),
                 locationId: loc.id
             }).addTo(map);
 
@@ -1524,7 +1674,11 @@
             locationMarkers.push(marker);
         });
 
-        console.log(`[LOCATIONS] Displayed ${locationMarkers.length} markers`);
+        console.log(`[LOCATIONS] Displayed ${locationMarkers.length} location markers`);
+    }
+
+    function showLocationMarkers() {
+        updateLocationMarkers(currentFilteredLocations.length > 0 ? currentFilteredLocations : locationsData);
     }
 
     function hideLocationMarkers() {
@@ -1547,7 +1701,449 @@
     // Toggle markers button
     document.getElementById('btnToggleMarkers').addEventListener('click', toggleMarkers);
 
-    // --- 11. INIT ---
+    // --- 11. QUESTS FUNCTIONALITY ---
+    async function loadQuests() {
+        try {
+            const response = await fetch('/static/data/quests.json');
+            questsData = await response.json();
+
+            // Filter quests that have coordinates
+            questObjectivesWithCoords = questsData
+                .filter(quest => quest.x !== null && quest.y !== null && quest.z !== null)
+                .map(quest => ({
+                    id: quest.quest_hash || quest.name,
+                    questTitle: quest.quest_title || 'Unknown Quest',
+                    questType: quest.quest_type || 'Unknown',
+                    description: quest.objective_description || 'No description',
+                    type: quest.objective_type || 'Objective',
+                    x: quest.x,
+                    y: quest.y,
+                    z: quest.z,
+                    district: quest.district || null,
+                    level: quest.level || null
+                }));
+
+            document.getElementById('quest-total-count').textContent = questObjectivesWithCoords.length;
+
+            // Populate filter dropdowns
+            populateQuestFilters();
+
+            // Render with initial filters
+            applyQuestFilters();
+
+            console.log(`[QUESTS] Loaded ${questObjectivesWithCoords.length} quest objectives with coordinates`);
+        } catch (error) {
+            console.error('[QUESTS] Error loading quests:', error);
+        }
+    }
+
+    function populateQuestFilters() {
+        // Get unique values for each filter
+        const questNames = [...new Set(questObjectivesWithCoords.map(q => q.questTitle))].sort();
+        const questTypes = [...new Set(questObjectivesWithCoords.map(q => q.questType))].sort();
+        const objectiveTypes = [...new Set(questObjectivesWithCoords.map(q => q.type))].sort();
+        const districts = [...new Set(questObjectivesWithCoords.map(q => q.district).filter(d => d))].sort();
+
+        // Populate quest name dropdown
+        const questNameSelect = document.getElementById('filterQuestName');
+        questNames.forEach(name => {
+            const option = document.createElement('option');
+            option.value = name;
+            option.textContent = name;
+            questNameSelect.appendChild(option);
+        });
+
+        // Populate quest type dropdown
+        const questTypeSelect = document.getElementById('filterQuestType');
+        questTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            questTypeSelect.appendChild(option);
+        });
+
+        // Populate objective type dropdown
+        const objectiveTypeSelect = document.getElementById('filterObjectiveType');
+        objectiveTypes.forEach(type => {
+            const option = document.createElement('option');
+            option.value = type;
+            option.textContent = type;
+            objectiveTypeSelect.appendChild(option);
+        });
+
+        // Populate district dropdown
+        const districtSelect = document.getElementById('filterDistrict');
+        districts.forEach(district => {
+            const option = document.createElement('option');
+            option.value = district;
+            option.textContent = district;
+            districtSelect.appendChild(option);
+        });
+    }
+
+    function applyQuestFilters() {
+        let filtered = questObjectivesWithCoords;
+
+        // Apply quest name filter
+        if (questFilters.questName) {
+            filtered = filtered.filter(q => q.questTitle === questFilters.questName);
+        }
+
+        // Apply quest type filter
+        if (questFilters.questType) {
+            filtered = filtered.filter(q => q.questType === questFilters.questType);
+        }
+
+        // Apply objective type filter
+        if (questFilters.objectiveType) {
+            filtered = filtered.filter(q => q.type === questFilters.objectiveType);
+        }
+
+        // Apply district filter
+        if (questFilters.district) {
+            filtered = filtered.filter(q => q.district === questFilters.district);
+        }
+
+        // Apply level range filter
+        if (questFilters.levelMin !== null) {
+            filtered = filtered.filter(q => q.level === null || q.level >= questFilters.levelMin);
+        }
+        if (questFilters.levelMax !== null) {
+            filtered = filtered.filter(q => q.level === null || q.level <= questFilters.levelMax);
+        }
+
+        document.getElementById('quest-filtered-count').textContent = filtered.length;
+        renderQuestsList(filtered);
+        updateActiveFilterCount();
+
+        // Update markers if they're currently visible
+        if (questMarkersVisible) {
+            updateQuestMarkers(filtered);
+        }
+    }
+
+    function updateActiveFilterCount() {
+        let count = 0;
+        if (questFilters.questName) count++;
+        if (questFilters.questType) count++;
+        if (questFilters.objectiveType) count++;
+        if (questFilters.district) count++;
+        if (questFilters.levelMin !== null) count++;
+        if (questFilters.levelMax !== null) count++;
+
+        const countEl = document.getElementById('activeFilterCount');
+        countEl.textContent = count === 0 ? 'None active' : `${count} active`;
+        countEl.style.color = count > 0 ? 'var(--cp-yellow)' : 'var(--cp-cyan)';
+    }
+
+    function renderQuestsList(quests) {
+        const container = document.getElementById('quests-list');
+        container.innerHTML = '';
+
+        quests.forEach(quest => {
+            const item = document.createElement('div');
+            item.className = 'location-item';
+            item.dataset.id = quest.id;
+
+            const levelBadge = quest.level ? `<span style="color: var(--cp-yellow); font-size: 0.7rem; margin-left: 4px;">[Lv${quest.level}]</span>` : '';
+            const districtInfo = quest.district && quest.district !== 'Unknown' ? `<span style="color: #666; font-size: 0.65rem;">${quest.district}</span> • ` : '';
+
+            item.innerHTML = `
+                <div class="location-item-name">${quest.questTitle}${levelBadge}</div>
+                <div class="location-item-desc">${districtInfo}[${quest.type}] ${quest.description}</div>
+                <div class="location-item-coords">X:${quest.x.toFixed(1)} Y:${quest.y.toFixed(1)} Z:${quest.z.toFixed(1)}</div>
+            `;
+
+            item.addEventListener('click', () => selectQuest(quest));
+            container.appendChild(item);
+        });
+    }
+
+    function selectQuest(quest) {
+        selectedQuestId = quest.id;
+
+        // Update UI
+        document.querySelectorAll('#quests-list .location-item').forEach(item => {
+            item.classList.toggle('selected', item.dataset.id === quest.id);
+        });
+
+        // Fly to quest location
+        const latlng = gameToLatLng(quest.x, quest.y);
+        if (!latlng) return;
+
+        map.flyTo(latlng, 5, { duration: 1.5 });
+
+        // Remove previous selected marker
+        if (selectedQuestMarker) {
+            map.removeLayer(selectedQuestMarker);
+            selectedQuestMarker = null;
+        }
+
+        // Create selected quest marker (larger, more prominent) using the appropriate icon
+        const selectedIcon = L.divIcon({
+            className: 'custom-selected-marker',
+            html: `
+                <div style="position: relative;">
+                    <img src="${getQuestIcon(quest).options.iconUrl}" style="width: 32px; height: 32px; filter: drop-shadow(0 0 10px var(--cp-yellow)) drop-shadow(0 0 20px var(--cp-yellow)); animation: pulse-marker 2s infinite;" />
+                    <div style="position: absolute; top: -35px; left: 50%; transform: translateX(-50%); white-space: nowrap; background: rgba(252, 238, 10, 0.9); color: #000; padding: 4px 8px; border-radius: 3px; font-size: 0.7rem; font-weight: bold; text-transform: uppercase; pointer-events: none;">${quest.questTitle}</div>
+                </div>
+            `,
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
+
+        selectedQuestMarker = L.marker(latlng, {
+            icon: selectedIcon,
+            questId: quest.id,
+            zIndexOffset: 1000
+        }).addTo(map);
+
+        selectedQuestMarker.bindPopup(`
+            <div style="font-family: 'Fira Code', monospace; min-width: 200px;">
+                <div style="color: var(--cp-yellow); font-weight: bold; margin-bottom: 6px; text-transform: uppercase; font-size: 0.9rem;">${quest.questTitle}</div>
+                <div style="font-size: 0.7rem; color: var(--cp-cyan); margin-bottom: 6px;">[${quest.type}] ${quest.questType}</div>
+                <div style="font-size: 0.75rem; color: #ddd; margin-bottom: 6px; line-height: 1.4;">${quest.description}</div>
+                <div style="font-size: 0.7rem; color: var(--cp-cyan); font-family: 'Fira Code', monospace;">
+                    X:${quest.x.toFixed(1)} Y:${quest.y.toFixed(1)} Z:${quest.z.toFixed(1)}
+                </div>
+            </div>
+        `, {
+            className: 'custom-popup'
+        });
+
+        // Open popup after a short delay to allow fly animation
+        setTimeout(() => {
+            selectedQuestMarker.openPopup();
+        }, 1600);
+
+        // If all markers are visible, highlight the corresponding marker
+        if (questMarkersVisible) {
+            questMarkers.forEach(marker => {
+                if (marker.options.questId === quest.id) {
+                    marker.openPopup();
+                }
+            });
+        }
+    }
+
+    function toggleQuestMarkers() {
+        questMarkersVisible = !questMarkersVisible;
+        const btn = document.getElementById('btnToggleQuestMarkers');
+
+        if (questMarkersVisible) {
+            showQuestMarkers();
+            btn.innerHTML = '<span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility_off</span>HIDE MARKERS';
+            btn.classList.add('active');
+        } else {
+            hideQuestMarkers();
+            btn.innerHTML = '<span class="material-icons" style="font-size: 16px; margin-right: 4px;">visibility</span>SHOW MARKERS';
+            btn.classList.remove('active');
+        }
+    }
+
+    function getQuestIcon(quest) {
+        const questType = quest.questType || '';
+
+        // Determine icon based on quest type
+        let iconPath = '/static/images/icons/misc/poi.png'; // Default
+
+        if (questType === 'CyberPsycho') {
+            iconPath = '/static/images/icons/misc/ncpd.png';
+        } else if (questType === 'Contract') {
+            iconPath = '/static/images/icons/misc/eddies.png';
+        } else if (questType === 'MainQuest' || questType === 'SideQuest') {
+            iconPath = '/static/images/icons/misc/stats.png';
+        }
+
+        return L.icon({
+            iconUrl: iconPath,
+            iconSize: [24, 24],
+            iconAnchor: [12, 12],
+            popupAnchor: [0, -12],
+            className: 'custom-quest-marker-icon'
+        });
+    }
+
+    function updateQuestMarkers(quests) {
+        // Clear existing markers
+        hideQuestMarkers();
+
+        // Show markers only for the provided quests
+        quests.forEach(quest => {
+            const latlng = gameToLatLng(quest.x, quest.y);
+            if (!latlng) return;
+
+            const marker = L.marker(latlng, {
+                icon: getQuestIcon(quest),
+                questId: quest.id
+            }).addTo(map);
+
+            marker.bindPopup(`
+                <div style="font-family: 'Fira Code', monospace; min-width: 200px;">
+                    <div style="color: var(--cp-yellow); font-weight: bold; margin-bottom: 6px; text-transform: uppercase;">${quest.questTitle}</div>
+                    <div style="font-size: 0.7rem; color: var(--cp-cyan); margin-bottom: 6px;">[${quest.type}]</div>
+                    <div style="font-size: 0.75rem; color: #ddd; margin-bottom: 6px; line-height: 1.4;">${quest.description}</div>
+                    <div style="font-size: 0.7rem; color: var(--cp-cyan); font-family: 'Fira Code', monospace;">
+                        X:${quest.x.toFixed(1)} Y:${quest.y.toFixed(1)} Z:${quest.z.toFixed(1)}
+                    </div>
+                </div>
+            `, {
+                className: 'custom-popup'
+            });
+
+            marker.on('click', () => {
+                selectedQuestId = quest.id;
+                document.querySelectorAll('#quests-list .location-item').forEach(item => {
+                    item.classList.toggle('selected', item.dataset.id === quest.id);
+                });
+            });
+
+            questMarkers.push(marker);
+        });
+
+        console.log(`[QUESTS] Displayed ${questMarkers.length} quest markers`);
+    }
+
+    function showQuestMarkers() {
+        // Apply current filters to determine which quests to show
+        let questsToShow = questObjectivesWithCoords;
+
+        if (questFilters.questName) {
+            questsToShow = questsToShow.filter(q => q.questTitle === questFilters.questName);
+        }
+        if (questFilters.questType) {
+            questsToShow = questsToShow.filter(q => q.questType === questFilters.questType);
+        }
+        if (questFilters.objectiveType) {
+            questsToShow = questsToShow.filter(q => q.type === questFilters.objectiveType);
+        }
+        if (questFilters.district) {
+            questsToShow = questsToShow.filter(q => q.district === questFilters.district);
+        }
+        if (questFilters.levelMin !== null) {
+            questsToShow = questsToShow.filter(q => q.level === null || q.level >= questFilters.levelMin);
+        }
+        if (questFilters.levelMax !== null) {
+            questsToShow = questsToShow.filter(q => q.level === null || q.level <= questFilters.levelMax);
+        }
+
+        updateQuestMarkers(questsToShow);
+    }
+
+    function hideQuestMarkers() {
+        questMarkers.forEach(marker => map.removeLayer(marker));
+        questMarkers = [];
+        // Note: selectedQuestMarker is kept separate and not removed
+    }
+
+    // Quest search
+    document.getElementById('questSearch').addEventListener('input', (e) => {
+        const query = e.target.value.toLowerCase();
+
+        // Start with filtered quests
+        let searchBase = questObjectivesWithCoords;
+
+        // Apply existing filters first
+        if (questFilters.questName) {
+            searchBase = searchBase.filter(q => q.questTitle === questFilters.questName);
+        }
+        if (questFilters.questType) {
+            searchBase = searchBase.filter(q => q.questType === questFilters.questType);
+        }
+        if (questFilters.objectiveType) {
+            searchBase = searchBase.filter(q => q.type === questFilters.objectiveType);
+        }
+        if (questFilters.district) {
+            searchBase = searchBase.filter(q => q.district === questFilters.district);
+        }
+        if (questFilters.levelMin !== null) {
+            searchBase = searchBase.filter(q => q.level === null || q.level >= questFilters.levelMin);
+        }
+        if (questFilters.levelMax !== null) {
+            searchBase = searchBase.filter(q => q.level === null || q.level <= questFilters.levelMax);
+        }
+
+        // Apply search query
+        const filtered = searchBase.filter(quest => {
+            const title = (quest.questTitle || '').toLowerCase();
+            const desc = (quest.description || '').toLowerCase();
+            const type = (quest.type || '').toLowerCase();
+            return title.includes(query) || desc.includes(query) || type.includes(query);
+        });
+
+        document.getElementById('quest-filtered-count').textContent = filtered.length;
+        renderQuestsList(filtered);
+
+        // Update markers if they're currently visible
+        if (questMarkersVisible) {
+            updateQuestMarkers(filtered);
+        }
+    });
+
+    // Filter event listeners
+    document.getElementById('filterQuestName').addEventListener('change', (e) => {
+        questFilters.questName = e.target.value;
+        applyQuestFilters();
+    });
+
+    document.getElementById('filterQuestType').addEventListener('change', (e) => {
+        questFilters.questType = e.target.value;
+        applyQuestFilters();
+    });
+
+    document.getElementById('filterObjectiveType').addEventListener('change', (e) => {
+        questFilters.objectiveType = e.target.value;
+        applyQuestFilters();
+    });
+
+    document.getElementById('filterDistrict').addEventListener('change', (e) => {
+        questFilters.district = e.target.value;
+        applyQuestFilters();
+    });
+
+    document.getElementById('filterLevelMin').addEventListener('input', (e) => {
+        questFilters.levelMin = e.target.value ? parseInt(e.target.value) : null;
+        applyQuestFilters();
+    });
+
+    document.getElementById('filterLevelMax').addEventListener('input', (e) => {
+        questFilters.levelMax = e.target.value ? parseInt(e.target.value) : null;
+        applyQuestFilters();
+    });
+
+    // Clear filters button
+    document.getElementById('btnClearFilters').addEventListener('click', () => {
+        questFilters = {
+            questName: '',
+            questType: '',
+            objectiveType: '',
+            district: '',
+            levelMin: null,
+            levelMax: null
+        };
+
+        document.getElementById('filterQuestName').value = '';
+        document.getElementById('filterQuestType').value = '';
+        document.getElementById('filterObjectiveType').value = '';
+        document.getElementById('filterDistrict').value = '';
+        document.getElementById('filterLevelMin').value = '';
+        document.getElementById('filterLevelMax').value = '';
+        document.getElementById('questSearch').value = '';
+
+        applyQuestFilters();
+    });
+
+    // Filter toggle
+    document.getElementById('filterToggleHeader').addEventListener('click', () => {
+        const filterControls = document.getElementById('filterControls');
+        const isHidden = filterControls.style.display === 'none';
+        filterControls.style.display = isHidden ? 'block' : 'none';
+    });
+
+    // Toggle quest markers button
+    document.getElementById('btnToggleQuestMarkers').addEventListener('click', toggleQuestMarkers);
+
+    // --- 12. INIT ---
     initReplay();
 
 </script>

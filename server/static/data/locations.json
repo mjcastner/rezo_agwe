@@ -209,15 +209,15 @@
         "wiki_name": "Sunshine Motel"
     },
     {
-        "id": null,
+        "id": "18791",
         "name": "BL FT Tango-Tors Motel",
         "x": -198.00746154785,
         "y": -4912.9326171875,
         "z": 77.247360229492,
         "yaw": 114.20245361328,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Defunct motel; Tango Tors Motel is located on the southern Badlands of Night City.",
+        "wiki_name": "Tango Tors Motel"
     },
     {
         "id": "15436",
@@ -407,26 +407,26 @@
         "wiki_name": "Northern Oilfields"
     },
     {
-        "id": null,
+        "id": "34155",
         "name": "BL-OF Tarot The Hanged Man (from street)",
         "x": -1740.98828125,
         "y": 3874.5256347656,
         "z": 6.9949569702148,
         "yaw": 87.124794006348,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Tree; City: Night City; District: Pacifica (2077)|Pacifica; The Tree of the Lost<ref name=\"X1\">{{RefX|user=CyberpunkGame|url=1681997382693662721|text=\"Tree of the Lost.\" Desc: \"Longshore Stacks is well-known for being home to the Tree of the Lost, where residents light candles for missing souls, hoping they\u2019ll find a way back home. Seems someone should light",
+        "wiki_name": "Tree of the Lost"
     },
     {
-        "id": null,
+        "id": "34155",
         "name": "BL-OF Tarot The Hanged Man",
         "x": -1820.6440429688,
         "y": 3877.783203125,
         "z": 6.4051361083984,
         "yaw": 77.755897521973,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Tree; City: Night City; District: Pacifica (2077)|Pacifica; The Tree of the Lost<ref name=\"X1\">{{RefX|user=CyberpunkGame|url=1681997382693662721|text=\"Tree of the Lost.\" Desc: \"Longshore Stacks is well-known for being home to the Tree of the Lost, where residents light candles for missing souls, hoping they\u2019ll find a way back home. Seems someone should light",
+        "wiki_name": "Tree of the Lost"
     },
     {
         "id": null,
@@ -1309,15 +1309,15 @@
         "wiki_name": "Jackie's Garage"
     },
     {
-        "id": null,
+        "id": "30412",
         "name": "HW-TG Slayton's Apt 1702 INT (Psychofan)",
         "x": -1453.7722167969,
         "y": -1030.1212158203,
         "z": 77.530624389648,
         "yaw": -47.510246276855,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: Night City; District: Heywood (2077)|Heywood; Gaston Slayton's Apartment is located in the Glen, in the Heywood district of central Night City.",
+        "wiki_name": "Gaston Slayton's Apartment"
     },
     {
         "id": null,
@@ -1342,15 +1342,15 @@
         "wiki_name": "Time Machine"
     },
     {
-        "id": null,
+        "id": "23196",
         "name": "HW-TG V's Glen Apt",
         "x": -1524.2314453125,
         "y": -985.82635498047,
         "z": 86.940002441406,
         "yaw": 57.812847137451,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Rental apartment; City: Night City; District: Heywood (2077)|Heywood; The Glen Apartment is located in the Glen, in the Heywood district of central Night City.",
+        "wiki_name": "V's Glen Apartment"
     },
     {
         "id": "18573",
@@ -1441,15 +1441,15 @@
         "wiki_name": "Dicky Twister"
     },
     {
-        "id": null,
+        "id": "30403",
         "name": "HW-VD Gustavo's Apt INT (Bring Me the Head)",
         "x": -979.06207275391,
         "y": 85.592666625977,
         "z": 48.349998474121,
         "yaw": 113.83388519287,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: Night City; District: Heywood (2077)|Heywood; Gustavo Orta's Apartment is located in Vista del Rey, in the Heywood district of central Night City.",
+        "wiki_name": "Gustavo Orta's Apartment"
     },
     {
         "id": null,
@@ -1606,15 +1606,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "36359",
         "name": "HW-WS Bree's apartment EXT (Shot By Both Sides)",
         "x": -2327.6843261719,
         "y": -190.09826660156,
         "z": 38.110527038574,
         "yaw": 85.494216918945,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: Night City; District: Heywood (2077)|Heywood; Bree Whitney's Apartment is located in Wellsprings, in the Heywood district of central Night City.",
+        "wiki_name": "Bree Whitney's Apartment"
     },
     {
         "id": null,
@@ -1914,15 +1914,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "34155",
         "name": "JOB The Ballad of Buck Ravers",
         "x": -689.62689208984,
         "y": 913.14038085938,
         "z": 11.400001525879,
         "yaw": -151.62783813477,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Tree; City: Night City; District: Pacifica (2077)|Pacifica; The Tree of the Lost<ref name=\"X1\">{{RefX|user=CyberpunkGame|url=1681997382693662721|text=\"Tree of the Lost.\" Desc: \"Longshore Stacks is well-known for being home to the Tree of the Lost, where residents light candles for missing souls, hoping they\u2019ll find a way back home. Seems someone should light",
+        "wiki_name": "Tree of the Lost"
     },
     {
         "id": null,
@@ -2420,15 +2420,15 @@
         "wiki_name": "Brainporium"
     },
     {
-        "id": null,
+        "id": "36359",
         "name": "PC-DG Bree's hideout (Shot By Both Sides)",
         "x": -2137.8015136719,
         "y": -2596.5649414063,
         "z": -12.666549682617,
         "yaw": 171.1566619873,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: Night City; District: Heywood (2077)|Heywood; Bree Whitney's Apartment is located in Wellsprings, in the Heywood district of central Night City.",
+        "wiki_name": "Bree Whitney's Apartment"
     },
     {
         "id": null,
@@ -2541,15 +2541,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "34113",
         "name": "PC-DG De-votion Statue",
         "x": -1655.8214111328,
         "y": -2488.3642578125,
         "z": 62.535865783691,
         "yaw": 33.9221534729,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Sculpture; City: Night City; District: Pacifica (2077)|Pacifica; De-votion is a sculpture located in the Eden Plaza shopping mall of Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "De-votion"
     },
     {
         "id": null,
@@ -2596,26 +2596,26 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "37595",
         "name": "PC-DG Farida Nazeri ripperdoc clinic EXT (Birds)",
         "x": -1890.2055664063,
         "y": -2488.7683105469,
         "z": 28.012771606445,
         "yaw": 44.925144195557,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Ripperdoc clinic; City: Night City; District: Pacifica (2077)|Pacifica; Farida's Clinic is located in Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Farida's Clinic"
     },
     {
-        "id": null,
+        "id": "37595",
         "name": "PC-DG Farida Nazeri ripperdoc clinic INT (Birds)",
         "x": -1903.5289306641,
         "y": -2474.2172851563,
         "z": 24.076011657715,
         "yaw": 43.311569213867,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Ripperdoc clinic; City: Night City; District: Pacifica (2077)|Pacifica; Farida's Clinic is located in Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Farida's Clinic"
     },
     {
         "id": null,
@@ -2970,15 +2970,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "17868",
         "name": "PC-DG LS The Moth EXT view (The Damned)",
         "x": -2417.7209472656,
         "y": -2667.875,
         "z": 27.991096496582,
         "yaw": -107.56213378906,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Shopping mall; City: Night City; District: City Center (2077)|City Center; The View is a shopping mall located in the Corporate Plaza of Night City.",
+        "wiki_name": "The View"
     },
     {
         "id": "34152",
@@ -2992,15 +2992,15 @@
         "wiki_name": "The Moth"
     },
     {
-        "id": null,
+        "id": "34363",
         "name": "PC-DG Montezuma's EXT boxing (No Easy Way Out)",
         "x": -1723.2297363281,
         "y": -2442.6025390625,
         "z": 49.228118896484,
         "yaw": -146.39987182617,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Hotel & casino; City: Night City; District: Pacifica (2077)|Pacifica; Montezuma's Throne is an abandoned hotel and casino located in the Eden Plaza shopping mall of Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Montezuma's Throne"
     },
     {
         "id": null,
@@ -3080,26 +3080,26 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "34153",
         "name": "PC-DG Roar of Eden pool",
         "x": -1807.2796630859,
         "y": -2524.27734375,
         "z": 50.98006439209,
         "yaw": 77.626243591309,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Club & casino; City: Night City; District: Pacifica (2077)|Pacifica; The Lions of Eden is a club and casino located in Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Lions of Eden"
     },
     {
-        "id": null,
+        "id": "34153",
         "name": "PC-DG Roar of Eden",
         "x": -1875.9031982422,
         "y": -2511.7277832031,
         "z": 35.398719787598,
         "yaw": -73.654670715332,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Club & casino; City: Night City; District: Pacifica (2077)|Pacifica; The Lions of Eden is a club and casino located in Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Lions of Eden"
     },
     {
         "id": null,
@@ -3795,15 +3795,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "19053",
         "name": "SD-AR The Manufactory clothing vendor",
         "x": -1025.8956298828,
         "y": -1552.1424560547,
         "z": 25.700897216797,
         "yaw": -121.25542449951,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Market; City: Night City; District: Santo Domingo; The Manufactory is a marketplace located in Arroyo, in the Santo Domingo district of southeastern Night City.",
+        "wiki_name": "The Manufactory"
     },
     {
         "id": null,
@@ -4664,37 +4664,37 @@
         "wiki_name": "Lizzie's Bar"
     },
     {
-        "id": null,
+        "id": "7957",
         "name": "WA-KB Lizzie's DJ Booth",
         "x": -1168.5280761719,
         "y": 1567.5241699219,
         "z": 26.915115356445,
         "yaw": 172.37954711914,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: [[Braindance]] club<ref name=\"CP2077\" /><br>Strip club<br>Nightclub<br>Brothel<ref name=\"2077WB\" />; City: Night City; District: Watson (2077)|Watson; Lizzie's Bar is a braindance club<ref name=\"CP2077\">{{RefCP|2077}} (Lizzie's Bar Database Entry; Advertisements around Night City)</ref> located in Kabuki, in the Watson district of northern Night City. It is also the headquarters for the Mox.",
+        "wiki_name": "Lizzie's Bar"
     },
     {
-        "id": null,
+        "id": "7957",
         "name": "WA-KB Lizzie's dressing room",
         "x": -1188.9914550781,
         "y": 1587.6364746094,
         "z": 22.915115356445,
         "yaw": 81.840263366699,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: [[Braindance]] club<ref name=\"CP2077\" /><br>Strip club<br>Nightclub<br>Brothel<ref name=\"2077WB\" />; City: Night City; District: Watson (2077)|Watson; Lizzie's Bar is a braindance club<ref name=\"CP2077\">{{RefCP|2077}} (Lizzie's Bar Database Entry; Advertisements around Night City)</ref> located in Kabuki, in the Watson district of northern Night City. It is also the headquarters for the Mox.",
+        "wiki_name": "Lizzie's Bar"
     },
     {
-        "id": null,
+        "id": "7957",
         "name": "WA-KB Lizzie's roof basketball court (The Corpo-Rat) (LOGCL)",
         "x": -1182.6096191406,
         "y": 1591.0100097656,
         "z": 31.31510925293,
         "yaw": -139.66003417969,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: [[Braindance]] club<ref name=\"CP2077\" /><br>Strip club<br>Nightclub<br>Brothel<ref name=\"2077WB\" />; City: Night City; District: Watson (2077)|Watson; Lizzie's Bar is a braindance club<ref name=\"CP2077\">{{RefCP|2077}} (Lizzie's Bar Database Entry; Advertisements around Night City)</ref> located in Kabuki, in the Watson district of northern Night City. It is also the headquarters for the Mox.",
+        "wiki_name": "Lizzie's Bar"
     },
     {
         "id": null,
@@ -4708,26 +4708,26 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "4103",
         "name": "WA-KB No-Tell Lizzy room EXT (Violence)",
         "x": -1199.2680664063,
         "y": 1327.3850097656,
         "z": 28,
         "yaw": 174.65382385254,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Motel; City: Night City; District: Watson (2077)|Watson; The No-Tell Motel is located in Kabuki, in the Watson district of northern Night City.",
+        "wiki_name": "No-Tell Motel"
     },
     {
-        "id": null,
+        "id": "4103",
         "name": "WA-KB No-Tell Lizzy room INT (Violence)",
         "x": -1199.9696044922,
         "y": 1321.4326171875,
         "z": 28.000007629395,
         "yaw": -166.44087219238,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Motel; City: Night City; District: Watson (2077)|Watson; The No-Tell Motel is located in Kabuki, in the Watson district of northern Night City.",
+        "wiki_name": "No-Tell Motel"
     },
     {
         "id": "4103",
@@ -4741,15 +4741,15 @@
         "wiki_name": "No-Tell Motel"
     },
     {
-        "id": null,
+        "id": "4103",
         "name": "WA-KB No-Tell room INT (Venus in Furs)",
         "x": -1202.0412597656,
         "y": 1333.7359619141,
         "z": 20.000007629395,
         "yaw": 25.3229637146,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Motel; City: Night City; District: Watson (2077)|Watson; The No-Tell Motel is located in Kabuki, in the Watson district of northern Night City.",
+        "wiki_name": "No-Tell Motel"
     },
     {
         "id": null,
@@ -4829,15 +4829,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "36482",
         "name": "WA-KB William Hare's hideout INT (Backs Against the Wall)",
         "x": -1189.3531494141,
         "y": 1124.1036376953,
         "z": 33.46215057373,
         "yaw": -147.57592773438,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Netrunning den; City: Night City; District: Pacifica (2077)|Pacifica; Slider's Hideout is located in the Eventide Resort & Spa of Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Slider's Hideout"
     },
     {
         "id": null,
@@ -4906,15 +4906,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "12916",
         "name": "WA-LC H10 Barry's Apt (Happy Together)",
         "x": -1392.5509033203,
         "y": 1300.4123535156,
         "z": 119.09104919434,
         "yaw": -46.850757598877,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Rental apartment; City: Night City; District: Watson (2077)|Watson; Barry Lewis's Apartment (number 0613) is located on the 7th floor of Megabuilding H10 in Little China, in the Watson district of northern Night City.",
+        "wiki_name": "Barry Lewis's Apartment"
     },
     {
         "id": null,
@@ -5082,26 +5082,26 @@
         "wiki_name": "So Mi's Apartment"
     },
     {
-        "id": null,
+        "id": "22919",
         "name": "WA-LC V's Penthouse backyard",
         "x": -1342.6270751953,
         "y": 1061.2451171875,
         "z": 111.01000976563,
         "yaw": 48.002655029297,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Penthouse; City: Night City; District: Watson (2077)|Watson; V's Penthouse is located in Little China, in the Watson district of northern Night City.",
+        "wiki_name": "V's Penthouse"
     },
     {
-        "id": null,
+        "id": "22919",
         "name": "WA-LC V's Penthouse empty floor",
         "x": -1337.4260253906,
         "y": 1213.7139892578,
         "z": 123,
         "yaw": 169.03126525879,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Penthouse; City: Night City; District: Watson (2077)|Watson; V's Penthouse is located in Little China, in the Watson district of northern Night City.",
+        "wiki_name": "V's Penthouse"
     },
     {
         "id": "22919",
@@ -5126,15 +5126,15 @@
         "wiki_name": "Viktor's Clinic"
     },
     {
-        "id": null,
+        "id": "30406",
         "name": "WA-NS Aaron McCarlson Apt INT (Scrolls Before Swine)",
         "x": -607.97210693359,
         "y": 2632.38671875,
         "z": 57.770004272461,
         "yaw": 155.84996032715,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: Night City; District: Watson (2077)|Watson; Aaron McCarlson's Apartment is located in Northside, in the Watson district of northern Night City.",
+        "wiki_name": "Aaron McCarlson's Apartment"
     },
     {
         "id": null,
@@ -5335,26 +5335,26 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "22920",
         "name": "WA-NS V's Northside Apt EXT",
         "x": -1501.9460449219,
         "y": 2224.2214355469,
         "z": 22.216590881348,
         "yaw": 35.779148101807,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Rental apartment; City: Night City; District: Watson (2077)|Watson; This Northside Apartment is part of an unnamed motel located in Northside, in the Watson district of northern Night City.",
+        "wiki_name": "V's Northside Apartment"
     },
     {
-        "id": null,
+        "id": "22920",
         "name": "WA-NS V's Northside Apt INT",
         "x": -1507.2230224609,
         "y": 2232.7092285156,
         "z": 22.210800170898,
         "yaw": -56.753330230713,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Rental apartment; City: Night City; District: Watson (2077)|Watson; This Northside Apartment is part of an unnamed motel located in Northside, in the Watson district of northern Night City.",
+        "wiki_name": "V's Northside Apartment"
     },
     {
         "id": "13376",
@@ -5489,15 +5489,15 @@
         "wiki_name": "Jig-Jig Street"
     },
     {
-        "id": null,
+        "id": "39097",
         "name": "WB FT Kerry Eurodyne's Residence",
         "x": 224.1376953125,
         "y": 1076.1622314453,
         "z": 200.42460632324,
         "yaw": 66.123107910156,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Cargo container apartment; City: Night City; District: Pacifica (2077)|Pacifica; Lina's Residence is located in Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Lina's Residence"
     },
     {
         "id": "24684",
@@ -5863,15 +5863,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "32418",
         "name": "WB-JT 8ug8ear's Apartment (LOGCL)",
         "x": -536.61676025391,
         "y": 1312.6791992188,
         "z": 45.236869812012,
         "yaw": -38.349964141846,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Apartment; City: New York City; District: Brooklyn; So Mi's Apartment was located in the Brooklyn borough of New York City. It is featured in {{CP|2077PL}}.",
+        "wiki_name": "So Mi's Apartment"
     },
     {
         "id": null,
@@ -5896,15 +5896,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "36482",
         "name": "WB-JT Chang-Hoon Nam's hideout INT (Wakako's Favorite)",
         "x": -491.01727294922,
         "y": 580.18115234375,
         "z": 27.343315124512,
         "yaw": -153.75798034668,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Netrunning den; City: Night City; District: Pacifica (2077)|Pacifica; Slider's Hideout is located in the Eventide Resort & Spa of Dogtown, in the Pacifica district of southern Night City.",
+        "wiki_name": "Slider's Hideout"
     },
     {
         "id": null,
@@ -6303,15 +6303,15 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "23195",
         "name": "WB-JT V's Japantown Apt",
         "x": -785.82641601563,
         "y": 987.39837646484,
         "z": 28.209541320801,
         "yaw": 153.9461517334,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Rental apartment; City: Night City; District: Westbrook (2077)|Westbrook; The Japantown Apartment in this building is located in Japantown, in the Westbrook district of northeastern Night City.",
+        "wiki_name": "V's Japantown Apartment"
     },
     {
         "id": "29224",
@@ -6347,26 +6347,26 @@
         "wiki_name": null
     },
     {
-        "id": null,
+        "id": "27355",
         "name": "WB-NO Denny's property EXT (Second Conflict)",
         "x": 511.83023071289,
         "y": 1247.9666748047,
         "z": 229.41596984863,
         "yaw": -0.392418384552,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Mansion; City: Night City; District: Westbrook (2077)|Westbrook; Denny's Mansion is located on the hills of North Oak, in the Westbrook district of northeastern Night City.",
+        "wiki_name": "Denny's Mansion"
     },
     {
-        "id": null,
+        "id": "11288",
         "name": "WB-NO Kerry Eurodyne's Villa INT (Holdin' On)",
         "x": 150.32403564453,
         "y": 1068.3382568359,
         "z": 202.80000305176,
         "yaw": 112.86060333252,
         "w": 1,
-        "description": null,
-        "wiki_name": null
+        "description": "Type: Villa; City: Night City; District: Westbrook (2077)|Westbrook; Villa Eurodyne is mansion located on the hills of North Oak, in the Westbrook district of northeastern Night City.",
+        "wiki_name": "Villa Eurodyne"
     },
     {
         "id": "31770",
@@ -8699,5 +8699,390 @@
         "w": null,
         "description": "Type: Penthouse apartment; City: Night City; District: Westbrook (2077)|Westbrook; Hiromi's Apartment is located at Megabuilding H8 in Japantown, in the Westbrook district of northeastern Night City.",
         "wiki_name": "Hiromi's Apartment"
+    },
+    {
+        "id": null,
+        "name": "Akulov penthouse",
+        "x": -1218.135986,
+        "y": 1409.63501,
+        "z": 113.524445,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Gutierrez Apt",
+        "x": 20.760391,
+        "y": 5.750076,
+        "z": 138.900955,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "14869",
+        "name": "Time Machine Guitar room",
+        "x": -1843.676392,
+        "y": -575.336243,
+        "z": 7.754036,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Music store; City: Night City; District: Heywood (2077)|Heywood; Time Machine is a notorious music store located in the Glen, in the Heywood district of central Night City.",
+        "wiki_name": "Time Machine"
+    },
+    {
+        "id": "27355",
+        "name": "Denny's Estate Inside",
+        "x": 486.977325,
+        "y": 1291.791016,
+        "z": 234.458664,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Mansion; City: Night City; District: Westbrook (2077)|Westbrook; Denny's Mansion is located on the hills of North Oak, in the Westbrook district of northeastern Night City.",
+        "wiki_name": "Denny's Mansion"
+    },
+    {
+        "id": null,
+        "name": "Hanako Estate bedroom",
+        "x": 290.197662,
+        "y": 1022.468079,
+        "z": 229.920425,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Voodoo Boys Subway",
+        "x": -1662.758545,
+        "y": -1867.002563,
+        "z": 54.98204,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "NCPD Conference room",
+        "x": -1761.547729,
+        "y": -1010.821655,
+        "z": 94.300003,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "14629",
+        "name": "Dark Matter hotel room",
+        "x": -372.268982,
+        "y": 271.240143,
+        "z": 215.515579,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Nightclub; City: Night City; District: Westbrook (2077)|Westbrook; Dark Matter is a club located in Japantown, in the Westbrook district of northeastern Night City.",
+        "wiki_name": "Dark Matter"
+    },
+    {
+        "id": null,
+        "name": "Megatower H8 penthouse",
+        "x": -701.48468,
+        "y": 849.270264,
+        "z": 322.252228,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Mr. Hands (Heavy Hearts)",
+        "x": -1577.5237,
+        "y": -2336.9883,
+        "z": 57.89293,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Outside the city (Nomad starting)",
+        "x": -3235.881592,
+        "y": -6146.751465,
+        "z": 96.834175,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "4599",
+        "name": "Grand Imperial Plaza Mall",
+        "x": -2278.209473,
+        "y": -1992.328613,
+        "z": 20.570023,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Shopping mall; City: Night City; District: Pacifica (2077)|Pacifica; The Grand Imperial Mall (GIM) is an abandoned shopping mall located in Coastview, in the Pacifica district of southern Night City.",
+        "wiki_name": "Grand Imperial Mall"
+    },
+    {
+        "id": null,
+        "name": "Unfinished Casino",
+        "x": 934.451233,
+        "y": 1458.630981,
+        "z": 242.12001,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "VB Data Fortress",
+        "x": -1661.448242,
+        "y": -1869.755859,
+        "z": 54.992889,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "River BD School",
+        "x": -6491.90918,
+        "y": -3167.27124,
+        "z": 57.558006,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Monorail Tunnel",
+        "x": -1663.618774,
+        "y": -1867.443726,
+        "z": 54.99015,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "7871",
+        "name": "Konpeki Tower Penthouse",
+        "x": -2220.772705,
+        "y": 1765.388916,
+        "z": 308.0,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Hotel; City: Night City; District: Watson (2077)|Watson; Konpeki Plaza (stylized as \u7d3a\u78a7\u30d7\u30e9\u30b6, translation: \"Azure Plaza\") is a luxury hotel located in the Arasaka Waterfront, in the Watson district of northern Night City.",
+        "wiki_name": "Konpeki Plaza"
+    },
+    {
+        "id": "7871",
+        "name": "Konpeki Tower - V Suite",
+        "x": -2202.186035,
+        "y": 1783.184204,
+        "z": 163.0,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Hotel; City: Night City; District: Watson (2077)|Watson; Konpeki Plaza (stylized as \u7d3a\u78a7\u30d7\u30e9\u30b6, translation: \"Azure Plaza\") is a luxury hotel located in the Arasaka Waterfront, in the Watson district of northern Night City.",
+        "wiki_name": "Konpeki Plaza"
+    },
+    {
+        "id": null,
+        "name": "Clouds",
+        "x": -625.404236,
+        "y": 794.564392,
+        "z": 132.252228,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Embers",
+        "x": -1795.816162,
+        "y": -526.988647,
+        "z": 74.241196,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "8343",
+        "name": "Atlantis",
+        "x": -753.86853,
+        "y": 1107.427612,
+        "z": 61.0,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: Nightclub<ref name=\"2020NC\" />; City: Night City; District: Little Asia; The Atlantis was the name of a nightclub in central Night City. For decades, it was the premier hangout for the city's fixers, solos, and netrunners.",
+        "wiki_name": "Club Atlantis"
+    },
+    {
+        "id": null,
+        "name": "Badlands Tunnel",
+        "x": -1255.622437,
+        "y": 126.991272,
+        "z": -43.753677,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Badlands Tunnel Entrance",
+        "x": 185.345749,
+        "y": 2365.449707,
+        "z": 67.081177,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Petrochem Off-limits area",
+        "x": -118.046112,
+        "y": -486.535583,
+        "z": 7.29686,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Abandoned area",
+        "x": -1475.8302,
+        "y": 161.548401,
+        "z": 208.637604,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Upper Atrium",
+        "x": -1390.497559,
+        "y": 162.406921,
+        "z": 388.347961,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower CEO level",
+        "x": -1437.788208,
+        "y": 157.24762,
+        "z": 565.346008,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower CEO office",
+        "x": -1447.286621,
+        "y": 73.579651,
+        "z": 568.946045,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Unlisted temple",
+        "x": -1383.655518,
+        "y": 118.832474,
+        "z": 542.696289,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Counter-intel",
+        "x": -1442.981689,
+        "y": 139.817459,
+        "z": 141.996506,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Underground",
+        "x": -1376.191528,
+        "y": 143.706009,
+        "z": -26.64801,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "8482",
+        "name": "Arasaka Tower Boring Machine",
+        "x": -1447.01001,
+        "y": 40.182648,
+        "z": -36.814171,
+        "yaw": null,
+        "w": 1,
+        "description": "Type: North American Division HQ<br>Regional HQ; City: Night City; District: City Center (2077)|City Center; Arasaka Tower is a massive skyscraper located in the Corporate Plaza of Night City. It acts as the North American branch headquarters for the Arasaka Corporation. Built on the site of the previous Arasaka Towers, the new building stands as the tallest structure in Night City in 2077, becoming a symb",
+        "wiki_name": "Arasaka Tower"
+    },
+    {
+        "id": "12759",
+        "name": "Arasaka Mikoshi Mainframe",
+        "x": -1448.108398,
+        "y": 149.156219,
+        "z": -27.652016,
+        "yaw": null,
+        "w": 1,
+        "description": "Location: The Net; Mikoshi (Japanese: \u795e\u8f3f, lit. \"''spirit/god litter''\") is a piece of cyberspace infrastructure in {{CP|2077}}.",
+        "wiki_name": "Mikoshi"
+    },
+    {
+        "id": null,
+        "name": "Arasaka Orbital Station",
+        "x": 4743.650879,
+        "y": -1091.755127,
+        "z": 1310.439575,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
+    },
+    {
+        "id": null,
+        "name": "Johnny interrogation room",
+        "x": -1389.446533,
+        "y": 141.266556,
+        "z": -139.361572,
+        "yaw": null,
+        "w": 1,
+        "description": null,
+        "wiki_name": null
     }
 ]
