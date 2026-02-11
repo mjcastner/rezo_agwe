@@ -20,6 +20,102 @@
     </script>
 
     <link rel="stylesheet" href="{{ url_for('static', path='css/style.css') }}">
+
+    <style>
+        /* --- RESPONSIVE ORIENTATION SUPPORT FOR BASE LAYOUT --- */
+        @media screen and (max-width: 768px), screen and (orientation: portrait) {
+            .app-container {
+                flex-direction: column-reverse !important; /* Navigation at bottom */
+            }
+
+            .vdb-rail {
+                width: 100% !important;
+                flex-direction: row !important;
+                border-right: none !important;
+                border-top: 2px solid var(--primary-color, #ff5e5e) !important;
+                border-bottom: none !important;
+                overflow-x: auto !important;
+                overflow-y: hidden !important;
+            }
+        }
+
+        /* Extra specific rule for portrait orientation */
+        @media screen and (orientation: portrait) {
+            .app-container {
+                flex-direction: column-reverse !important;
+            }
+
+            .vdb-rail {
+                width: 100% !important;
+                flex-direction: row !important;
+                border-right: none !important;
+                border-top: 2px solid var(--primary-color, #ff5e5e) !important;
+                border-bottom: none !important;
+            }
+
+            .rail-nav-items {
+                flex-direction: row;
+                width: 100%;
+                justify-content: space-around;
+            }
+
+            .nav-item {
+                flex-direction: column;
+                padding: 0.5rem;
+                min-width: 60px;
+            }
+
+            .nav-icon {
+                font-size: 1.5rem;
+            }
+
+            .nav-label {
+                font-size: 0.65rem;
+                margin-top: 0.25rem;
+            }
+
+            .nav-indicator {
+                width: 100%;
+                height: 3px;
+                top: auto;
+                bottom: 0;
+                left: 0;
+            }
+
+            .content-area {
+                flex: 1;
+                overflow-y: auto;
+            }
+        }
+
+        @media screen and (orientation: landscape) and (max-height: 600px) {
+            .vdb-rail {
+                width: 60px;
+            }
+
+            .nav-label {
+                font-size: 0.7rem;
+            }
+
+            .nav-icon {
+                font-size: 1.3rem;
+            }
+
+            .nav-item {
+                padding: 0.75rem 0.5rem;
+            }
+        }
+
+        @media screen and (max-width: 480px) {
+            .nav-label {
+                font-size: 0.6rem;
+            }
+
+            .nav-icon {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
 </head>
 
 <body>

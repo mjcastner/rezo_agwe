@@ -313,6 +313,112 @@
             opacity: 0;
         }
     }
+
+    /* --- RESPONSIVE ORIENTATION SUPPORT --- */
+    @media screen and (max-width: 768px), (orientation: portrait) {
+        .char-interface {
+            flex-direction: column;
+        }
+
+        .char-sidebar {
+            width: 100%;
+            border-right: none;
+            border-bottom: 1px solid var(--cp-red);
+            padding: 0.75rem;
+            max-height: 35vh;
+            overflow-y: auto;
+            gap: 0.75rem;
+        }
+
+        .char-sidebar h2 {
+            font-size: 0.9rem;
+            padding-bottom: 0.25rem;
+        }
+
+        .stat-block {
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-lbl {
+            font-size: 0.65rem;
+        }
+
+        .stat-txt {
+            font-size: 0.85rem;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .stat-txt span {
+            font-size: 0.7rem;
+        }
+
+        .char-stage {
+            flex: 1;
+        }
+
+        .construct-container {
+            width: 80vmin;
+            height: 80vmin;
+        }
+
+        .hub-diamond {
+            width: 14vmin;
+            height: 14vmin;
+        }
+
+        .attr-node {
+            width: 20vmin;
+            height: 12vmin;
+        }
+
+        .node-val {
+            font-size: 3.5vmin;
+        }
+
+        /* Header text on stage */
+        .char-stage > div[style*="position: absolute; top: 2rem; left: 2rem"] h1 {
+            font-size: 1rem !important;
+        }
+
+        .char-stage > div[style*="position: absolute; top: 2rem; left: 2rem"] p {
+            font-size: 0.7rem !important;
+        }
+
+        .char-stage > div[style*="position: absolute; top: 2rem; right: 2rem"] span {
+            font-size: 0.7rem !important;
+        }
+
+        .char-stage > div[style*="position: absolute; top: 2rem; right: 2rem"] span[style*="font-size: 2rem"] {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    @media screen and (max-width: 480px) {
+        .char-sidebar {
+            padding: 0.5rem;
+            max-height: 30vh;
+        }
+
+        .stat-lbl {
+            font-size: 0.6rem;
+        }
+
+        .stat-txt {
+            font-size: 0.75rem;
+        }
+    }
+
+    @media screen and (orientation: landscape) and (max-height: 600px) {
+        .char-sidebar {
+            font-size: 0.85rem;
+            gap: 1rem;
+        }
+
+        .stat-block {
+            margin-bottom: 0.5rem;
+        }
+    }
 </style>
 
 <div class="char-interface">

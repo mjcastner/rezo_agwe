@@ -133,4 +133,103 @@
     </div>
 
 </div>
+
+<style>
+    /* Make images fill available space better */
+    .vdb-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+    }
+
+    /* Behavior metadata icons */
+    div[style*="display: flex; align-items: center; gap: 12px"] img {
+        width: 100px;
+        height: 100px;
+        object-fit: contain;
+        flex-shrink: 0;
+    }
+
+    /* Item display containers */
+    div[style*="height: 150px"] {
+        overflow: hidden;
+    }
+
+    div[style*="height: 150px"] img {
+        width: 100%;
+        height: 100%;
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    /* --- RESPONSIVE ORIENTATION SUPPORT --- */
+    @media screen and (max-width: 1024px), (orientation: portrait) {
+        div[style*="max-width: 1200px"] {
+            max-width: 100%;
+            margin: 20px auto;
+        }
+
+        div[style*="grid-template-columns: repeat(3, 1fr)"] {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 16px !important;
+        }
+
+        h1 {
+            font-size: 1.2rem !important;
+        }
+
+        h2 {
+            font-size: 1rem !important;
+        }
+    }
+
+    @media screen and (max-width: 640px) {
+        div[style*="grid-template-columns: repeat(3, 1fr)"],
+        div[style*="grid-template-columns: repeat(2, 1fr)"] {
+            grid-template-columns: 1fr !important;
+        }
+
+        .vdb-card {
+            padding: 12px !important;
+        }
+
+        div[style*="margin-bottom: 80px"] {
+            margin-bottom: 40px !important;
+        }
+
+        div[style*="height: 150px"] {
+            height: 120px !important;
+        }
+
+        /* Scale down behavior icons on mobile */
+        div[style*="display: flex; align-items: center; gap: 12px"] img {
+            width: 70px !important;
+            height: 70px !important;
+        }
+
+        div[style*="display: flex; align-items: center; gap: 12px"] {
+            gap: 8px !important;
+        }
+
+        div[style*="font-size: 2rem"] {
+            font-size: 1.5rem !important;
+        }
+    }
+
+    @media screen and (orientation: landscape) and (max-height: 600px) {
+        div[style*="margin: 60px auto"] {
+            margin: 20px auto !important;
+        }
+
+        div[style*="margin-bottom: 80px"] {
+            margin-bottom: 30px !important;
+        }
+
+        h2 {
+            padding-bottom: 5px !important;
+            margin-bottom: 15px !important;
+        }
+    }
+</style>
 {% endblock %}

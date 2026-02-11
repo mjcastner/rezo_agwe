@@ -344,6 +344,40 @@ async def export_json():
     return response
 
 
+@FASTAPI_APP.get("/api/events/live")
+async def live_events(since: str = None):
+    """
+    Get events after a specific timestamp for live-following.
+    Args:
+        since: ISO timestamp string (e.g., '2024-01-01T12:00:00')
+    Returns:
+        JSON array of events newer than the specified timestamp
+    """
+    event_df = generate_events()
+
+    if since:
+        # Filter events newer than the provided timestamp
+        filtered_df = duckdb.sql(
+            f"""
+            SELECT * FROM event_df
+            WHERE timestamp::TIMESTAMP > '{since}'
+            ORDER BY timestamp::TIMESTAMP ASC
+            """
+        ).df()
+    else:
+        # If no timestamp provided, return the most recent event
+        filtered_df = duckdb.sql(
+            """
+            SELECT * FROM event_df
+            ORDER BY timestamp::TIMESTAMP DESC
+            LIMIT 1
+            """
+        ).df()
+
+    events = filtered_df.to_dict(orient="records")
+    return {"events": events, "count": len(events)}
+
+
 # Functions
 def validate_game_dir() -> str:
     game_dir = None
