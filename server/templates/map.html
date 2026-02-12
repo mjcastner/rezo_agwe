@@ -1616,16 +1616,8 @@
     }
 
     function getLocationIcon(loc) {
-        const name = (loc.wiki_name || loc.name || '').toLowerCase();
-
-        // Determine icon based on location type
-        let iconPath = '/static/images/icons/misc/poi.png'; // Default
-
-        if (name.includes('tarot')) {
-            iconPath = '/static/images/icons/misc/tarot.png';
-        } else if (name.includes('ncpd')) {
-            iconPath = '/static/images/icons/misc/ncpd.png';
-        }
+        // All locations use the same POI icon for better visibility
+        const iconPath = '/static/images/icons/misc/poi.png';
 
         return L.icon({
             iconUrl: iconPath,
@@ -1942,18 +1934,8 @@
     }
 
     function getQuestIcon(quest) {
-        const questType = quest.questType || '';
-
-        // Determine icon based on quest type
-        let iconPath = '/static/images/icons/misc/poi.png'; // Default
-
-        if (questType === 'CyberPsycho') {
-            iconPath = '/static/images/icons/misc/ncpd.png';
-        } else if (questType === 'Contract') {
-            iconPath = '/static/images/icons/misc/eddies.png';
-        } else if (questType === 'MainQuest' || questType === 'SideQuest') {
-            iconPath = '/static/images/icons/misc/stats.png';
-        }
+        // All quest objectives use the same POI icon for better visibility
+        const iconPath = '/static/images/icons/misc/poi.png';
 
         return L.icon({
             iconUrl: iconPath,
