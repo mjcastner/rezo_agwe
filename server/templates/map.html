@@ -8,7 +8,6 @@
 <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Symbols+Sharp" rel="stylesheet">
 
 <style>
-    /* --- THEME VARIABLES --- */
     .netrunner-map-interface {
         --cp-red: #ff5e5e;
         --cp-red-dim: rgba(255, 94, 94, 0.15);
@@ -21,11 +20,16 @@
         --transition-speed: 0.3s;
     }
 
-    /* --- LAYOUT CONTAINER --- */
+    /* Make the map page full-bleed within the app container */
+    .content-area {
+        padding: 0 !important;
+        overflow: hidden !important;
+    }
+
     .netrunner-map-interface {
         position: relative;
         width: 100%;
-        height: 100vh;
+        height: 100%;
         display: flex;
         overflow: hidden;
         background: var(--cp-bg);
@@ -33,10 +37,8 @@
         color: white;
     }
 
-    /* --- HEADER GRID SYSTEM --- */
     .location-header {
         display: grid;
-        /* Columns: Icon (50px) | Info (Flex) | Altimeter (24px) */
         grid-template-columns: 50px 1fr 24px;
         background: rgba(255, 0, 60, 0.05);
         border-left: 3px solid var(--cp-red);
@@ -46,7 +48,6 @@
         border-bottom: 1px solid var(--cp-red-dim);
     }
 
-    /* COL 1: Icon Area */
     .header-icon-col {
         display: flex;
         align-items: center;
@@ -62,7 +63,6 @@
         filter: drop-shadow(0 0 2px var(--cp-red));
     }
 
-    /* COL 2: Main Info Stack */
     .header-info-col {
         display: flex;
         flex-direction: column;
@@ -71,7 +71,6 @@
         position: relative;
     }
 
-    /* Top Row: District & Stats */
     .info-top-row {
         display: flex;
         justify-content: space-between;
@@ -105,7 +104,6 @@
         opacity: 0.8;
     }
 
-    /* Middle Row: Sub-district */
     .loc-sub {
         color: #fff;
         text-transform: uppercase;
@@ -116,7 +114,6 @@
         letter-spacing: 0.5px;
     }
 
-    /* Bottom Row: Coords (Integrated) */
     .loc-coords-row {
         margin-top: 4px;
         display: flex;
@@ -139,7 +136,6 @@
         letter-spacing: -0.5px;
     }
 
-    /* COL 3: Altimeter Strip */
     .header-alt-col {
         position: relative;
         background: rgba(0, 0, 0, 0.5);
@@ -169,7 +165,6 @@
         pointer-events: none;
     }
 
-    /* --- SIDEBAR & GENERAL UI --- */
     .map-sidebar {
         position: fixed;
         top: 0;
@@ -190,9 +185,9 @@
     }
 
     .sidebar-toggle {
-        position: absolute;
+        position: fixed;
         top: 50%;
-        left: -24px;
+        right: 0;
         width: 24px;
         height: 60px;
         background: var(--cp-red);
@@ -203,6 +198,13 @@
         justify-content: center;
         border-radius: 4px 0 0 4px;
         color: #000;
+        transform: translateY(-50%);
+        z-index: 101;
+        transition: right var(--transition-speed) ease;
+    }
+
+    .map-sidebar:not(.collapsed) + .sidebar-toggle {
+        right: var(--sidebar-width);
     }
 
     .sidebar-content {
@@ -228,7 +230,6 @@
         border-radius: 3px;
     }
 
-    /* TEXT STYLES */
     .stat-row {
         display: flex;
         justify-content: space-between;
@@ -251,7 +252,6 @@
         color: var(--cp-cyan);
     }
 
-    /* HEX GRID */
     .mini-hex-grid {
         display: flex;
         justify-content: center;
@@ -281,7 +281,6 @@
         color: #fff;
     }
 
-    /* ITEMS */
     .item-icon {
         display: block;
         margin: 0 auto;
@@ -291,7 +290,6 @@
         filter: drop-shadow(0 0 4px rgba(255, 0, 60, 0.6));
     }
 
-    /* MAP STAGE */
     .map-stage {
         flex-grow: 1;
         position: relative;
@@ -335,7 +333,6 @@
         color: #000;
     }
 
-    /* CONTROLS */
     .controls-area {
         margin-top: auto;
         background: rgba(0, 0, 0, 0.3);
@@ -417,12 +414,11 @@
         50% { opacity: 0.5; box-shadow: 0 0 0 4px rgba(0, 240, 255, 0); }
     }
 
-    /* Tab Navigation */
     .tab-navigation {
         display: flex;
         gap: 4px;
-        margin-bottom: 1rem;
         border-bottom: 2px solid var(--cp-border);
+        flex-shrink: 0;
     }
 
     .tab-btn {
@@ -458,6 +454,11 @@
         border-bottom-color: var(--cp-cyan);
     }
 
+    /* Portrait-only collapse toggle — hidden on desktop */
+    .portrait-collapse-btn {
+        display: none;
+    }
+
     .tab-content {
         display: none;
         flex-direction: column;
@@ -469,7 +470,6 @@
         display: flex;
     }
 
-    /* Location List Items */
     .location-item {
         background: rgba(0, 0, 0, 0.3);
         border-left: 2px solid var(--cp-red);
@@ -514,7 +514,6 @@
         font-family: 'Fira Code', monospace;
     }
 
-    /* Custom Leaflet Popup Styling */
     .leaflet-popup-content-wrapper {
         background: rgba(10, 5, 5, 0.95) !important;
         border: 1px solid var(--cp-red) !important;
@@ -573,7 +572,6 @@
         }
     }
 
-    /* --- RESPONSIVE ORIENTATION SUPPORT --- */
     @media screen and (max-width: 1024px), (orientation: portrait) {
         .netrunner-map-interface {
             --sidebar-width: 320px;
@@ -639,7 +637,8 @@
         }
     }
 
-    @media screen and (max-width: 640px) {
+    /* Portrait layout: covers all portrait devices (phones + tablets) */
+    @media screen and (orientation: portrait) {
         .netrunner-map-interface {
             flex-direction: column;
         }
@@ -647,32 +646,77 @@
         .map-sidebar {
             position: relative;
             width: 100%;
-            max-height: 50vh;
+            max-height: 65%;
             border-left: none;
             border-top: 1px solid var(--cp-red);
             bottom: auto;
             top: auto;
+            overflow: hidden;
+            transition: max-height var(--transition-speed) ease;
         }
 
+        /* Collapsed sidebar shrinks to just the tab-navigation bar */
         .map-sidebar.collapsed {
-            transform: translateY(100%);
+            transform: none;
+            max-height: 48px;
         }
 
-        .sidebar-toggle {
-            top: -24px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 60px;
-            height: 24px;
-            border-radius: 4px 4px 0 0;
+        /* Override the landscape open-state toggle rule */
+        .map-sidebar:not(.collapsed) + .sidebar-toggle {
+            right: auto;
         }
 
-        .sidebar-toggle .material-icons {
-            transform: rotate(90deg);
+        /* Hide the toggle button — tabs serve as the persistent anchor */
+        #sidebarToggle {
+            display: none;
         }
 
         .map-stage {
-            height: 50vh;
+            min-height: 25%;
+            flex: 1;
+        }
+
+        .tab-navigation {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        .portrait-collapse-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            background: none;
+            border: none;
+            border-left: 1px solid var(--cp-border);
+            color: var(--cp-red);
+            cursor: pointer;
+            padding: 0 14px;
+            opacity: 0.7;
+            transition: opacity 0.2s, color 0.2s;
+            margin-bottom: -2px;
+        }
+
+        .portrait-collapse-btn:hover {
+            opacity: 1;
+            color: var(--cp-cyan);
+        }
+
+        .portrait-collapse-btn .material-icons {
+            font-size: 20px;
+        }
+    }
+
+    /* Small-screen tweaks for portrait phones */
+    @media screen and (max-width: 640px) {
+        .tab-navigation {
+            flex-wrap: nowrap;
+            overflow-x: auto;
+        }
+
+        #locations-list,
+        #quests-list {
+            max-height: calc(70vh - 250px) !important;
         }
 
         .location-header {
@@ -781,27 +825,26 @@
     </div>
 
     <aside id="sidebar" class="map-sidebar {{ 'collapsed' if not selected_date else '' }}">
-        <button id="sidebarToggle" class="sidebar-toggle">
-            <span class="material-icons">chevron_right</span>
-        </button>
+        <!-- Tab Navigation (outside sidebar-content so it stays visible in portrait collapsed state) -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" data-tab="status">
+                <span class="material-icons">analytics</span>
+                STATUS
+            </button>
+            <button class="tab-btn" data-tab="locations">
+                <span class="material-icons">location_on</span>
+                LOCATIONS
+            </button>
+            <button class="tab-btn" data-tab="quests">
+                <span class="material-icons">task_alt</span>
+                QUESTS
+            </button>
+            <button id="portraitCollapseBtn" class="portrait-collapse-btn" title="Collapse panel">
+                <span class="material-icons" id="portraitCollapseIcon">expand_more</span>
+            </button>
+        </div>
 
         <div class="sidebar-content">
-
-            <!-- Tab Navigation -->
-            <div class="tab-navigation">
-                <button class="tab-btn active" data-tab="status">
-                    <span class="material-icons">analytics</span>
-                    STATUS
-                </button>
-                <button class="tab-btn" data-tab="locations">
-                    <span class="material-icons">location_on</span>
-                    LOCATIONS
-                </button>
-                <button class="tab-btn" data-tab="quests">
-                    <span class="material-icons">task_alt</span>
-                    QUESTS
-                </button>
-            </div>
 
             <!-- Status Tab Content -->
             <div class="tab-content active" id="tab-status">
@@ -1044,25 +1087,28 @@
             </div>
         </div>
     </aside>
+    <button id="sidebarToggle" class="sidebar-toggle">
+        <span class="material-icons">chevron_right</span>
+    </button>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-    // --- 1. JINJA DATA INJECTION ---
+
     const allServerEvents = {{ events | tojson | safe }};
     const heightBounds = {{ height_bounds | tojson | safe }};
 
-    // --- 2. CONFIG & MAP ---
+
     var initGameX = {{ x if x else 0 }};
     var initGameY = {{ y if y else 0 }};
     var initZoom = {{ z if z else 0 }};
 
-    // SIDEBAR LOGIC
+
     const sidebar = document.getElementById('sidebar');
     const sidebarToggle = document.getElementById('sidebarToggle');
 
-    // Set initial icon based on backend state
+
     const toggleIcon = sidebarToggle.querySelector('.material-icons');
     if (sidebar.classList.contains('collapsed')) {
         toggleIcon.innerText = 'chevron_left';
@@ -1072,16 +1118,26 @@
 
     sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('collapsed');
-        // Update Icon
+
         toggleIcon.innerText = sidebar.classList.contains('collapsed') ? 'chevron_left' : 'chevron_right';
-        // Redraw map size after animation
+
+        setTimeout(() => { if (map) map.invalidateSize(); }, 350);
+    });
+
+    // Portrait collapse/expand toggle
+    const portraitCollapseBtn = document.getElementById('portraitCollapseBtn');
+    const portraitCollapseIcon = document.getElementById('portraitCollapseIcon');
+
+    portraitCollapseBtn.addEventListener('click', () => {
+        sidebar.classList.toggle('collapsed');
+        portraitCollapseIcon.textContent = sidebar.classList.contains('collapsed') ? 'expand_less' : 'expand_more';
         setTimeout(() => { if (map) map.invalidateSize(); }, 350);
     });
 
     var config = {
         refGame: { x: -1425.62, y: -73.93 },
         refTile: { x: 58.125, y: 54.875, z: 7 },
-        // pixelsPerGameUnit: 25.705,
+
         pixelsPerGameUnit: 3.213125,
         invertY: true
     };
@@ -1107,7 +1163,7 @@
     document.getElementById('zoomIn').onclick = () => map.setZoom(map.getZoom() + 1);
     document.getElementById('zoomOut').onclick = () => map.setZoom(map.getZoom() - 1);
 
-    // --- 3. DATA PROCESSING ---
+
     var activeReplayData = [];
     if (allServerEvents) {
         allServerEvents.forEach(evt => {
@@ -1119,18 +1175,19 @@
         activeReplayData.sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
     }
 
-    // --- 4. REPLAY STATE ---
+
     var replayMarker = null, replayPath = null;
     var isPlaying = false, isFollowing = false;
     var playbackIndex = 0;
     var timerId = null;
+    var maxTrailLength = 200;
 
-    // --- LIVE MODE STATE ---
+
     var isLiveMode = false;
     var livePollingTimer = null;
     var lastEventTimestamp = null;
 
-    // --- LOCATIONS STATE ---
+
     var locationsData = [];
     var locationMarkers = [];
     var markersVisible = false;
@@ -1138,7 +1195,7 @@
     var selectedLocationMarker = null;
     var currentFilteredLocations = [];
 
-    // --- QUESTS STATE ---
+
     var questsData = [];
     var questObjectivesWithCoords = [];
     var questMarkers = [];
@@ -1154,7 +1211,7 @@
         levelMax: null
     };
 
-    // UI References
+
     const ui = {
         district: document.getElementById('val-district'),
         subdistrict: document.getElementById('val-subdistrict'),
@@ -1183,7 +1240,7 @@
         btnPlay: document.getElementById('btnTogglePlay')
     };
 
-    // --- 5. FUNCTIONS ---
+
     function initReplay() {
         isPlaying = false;
         updatePlayBtn();
@@ -1194,6 +1251,7 @@
         if (replayPath) map.removeLayer(replayPath);
 
         if (activeReplayData.length > 0) {
+
             var latlngs = activeReplayData.map(d => d.latlng);
             replayPath = L.polyline(latlngs, { color: '#fcee0a', weight: 3, opacity: 0.8 }).addTo(map);
             replayMarker = L.circleMarker(activeReplayData[0].latlng, { color: '#ff5e5e', radius: 6, fillOpacity: 1 }).addTo(map);
@@ -1211,18 +1269,39 @@
         }
     }
 
+    function updateReplayPath() {
+
+        if (replayPath && activeReplayData.length > 0) {
+
+            let startIdx = 0;
+            if (isLiveMode) {
+
+                startIdx = Math.max(0, activeReplayData.length - maxTrailLength);
+            } else {
+
+                startIdx = Math.max(0, playbackIndex - maxTrailLength);
+            }
+
+            const endIdx = isLiveMode ? activeReplayData.length : playbackIndex + 1;
+            const visiblePoints = activeReplayData.slice(startIdx, endIdx);
+            const latlngs = visiblePoints.map(d => d.latlng);
+
+            replayPath.setLatLngs(latlngs);
+        }
+    }
+
     function updateDisplay() {
         if (!activeReplayData[playbackIndex]) return;
         var d = activeReplayData[playbackIndex];
         replayMarker.setLatLng(d.latlng);
         if (isFollowing) map.setView(d.latlng, map.getZoom(), { animate: false });
 
-        // -- HEADER UPDATES --
+
         ui.district.innerText = d.spatial.district || "Unknown";
         ui.subdistrict.innerText = d.spatial.subDistrict || "Unknown";
         ui.gender.innerText = d.identity.gender || "--";
 
-        // Coords & Altimeter
+
         if (d.spatial.x !== undefined) {
             ui.coords.innerText = `${d.spatial.x.toFixed(2)}, ${d.spatial.y.toFixed(2)}, ${d.spatial.z.toFixed(1)}`;
             if (heightBounds.max_height !== heightBounds.min_height) {
@@ -1232,7 +1311,7 @@
             }
         }
 
-        // District Icon
+
         if (d.spatial.districtIcon != "None") {
             ui.districtIcon.src = d.spatial.districtIcon;
             ui.districtIcon.style.display = 'block';
@@ -1240,7 +1319,7 @@
             ui.districtIcon.style.display = 'none';
         }
 
-        // Lifepath Icon
+
         switch (d.identity.lifepath) {
             case "Corporate": ui.lifepathIcon.src = "static/images/icons/lifepaths/corpo.png"; ui.lifepathIcon.style.display = 'block'; break;
             case "Nomad": ui.lifepathIcon.src = "static/images/icons/lifepaths/nomad.png"; ui.lifepathIcon.style.display = 'block'; break;
@@ -1248,7 +1327,7 @@
             default: ui.lifepathIcon.style.display = 'none'; break;
         }
 
-        // -- STATS UPDATES --
+
         ui.date.innerText = d.timestamp.split('T')[0];
         ui.time.innerText = d.timestamp.split('T')[1].split('.')[0];
         ui.objective.innerText = d.narrative.questObjective || "Unknown";
@@ -1257,7 +1336,7 @@
         ui.sc.innerText = d.proficiency?.streetCred || "--";
         ui.level.innerText = d.proficiency?.level || "--";
 
-        // Attributes
+
         if (d.attributes) {
             ui.body.innerText = d.attributes.body;
             ui.ref.innerText = d.attributes.reflexes;
@@ -1266,13 +1345,13 @@
             ui.cool.innerText = d.attributes.cool;
         }
 
-        // Vitals
+
         if (d.status) {
             ui.health.innerText = Math.round(d.status.health);
             ui.memory.innerText = d.status.memory;
         }
 
-        // -- INVENTORY UPDATES --
+
         if (d.loadout.activeWeaponIcon != "None") {
             ui.weaponIcon.src = d.loadout.activeWeaponIcon;
             ui.weaponIcon.style.display = 'block';
@@ -1290,7 +1369,7 @@
         ui.scrubber.value = playbackIndex;
     }
 
-    // --- 6. EVENT LISTENERS ---
+
     document.getElementById('chkFollow').onchange = function () { isFollowing = this.checked; };
 
     function playStep() {
@@ -1328,20 +1407,20 @@
         isPlaying = false; updatePlayBtn(); playbackIndex = activeReplayData.length - 1; updateDisplay();
     };
 
-    // --- 7. DATE PICKER LOGIC ---
+
     const dateSelect = document.getElementById('dateSelect');
     const loadBtn = document.getElementById('btnLoadDate');
     const urlParams = new URLSearchParams(window.location.search);
     const currentDate = urlParams.get('date');
 
-    // Init picker value
+
     if (currentDate) {
         dateSelect.value = currentDate;
     } else {
-        dateSelect.value = ""; // Default placeholder
+        dateSelect.value = "";
     }
 
-    // Load button click handler
+
     loadBtn.addEventListener('click', () => {
         const val = dateSelect.value;
         if (val) {
@@ -1353,10 +1432,10 @@
         }
     });
 
-    // --- 8. LIVE MODE FUNCTIONS ---
+
     async function fetchNewEvents() {
         if (!lastEventTimestamp) {
-            // Get the most recent event timestamp from current data
+
             if (activeReplayData.length > 0) {
                 lastEventTimestamp = activeReplayData[activeReplayData.length - 1].timestamp;
             }
@@ -1371,7 +1450,7 @@
             const data = await response.json();
 
             if (data.events && data.events.length > 0) {
-                // Process and add new events
+
                 data.events.forEach(evt => {
                     if (evt.spatial) {
                         evt.latlng = gameToLatLng(evt.spatial.x, evt.spatial.y);
@@ -1380,20 +1459,19 @@
                     }
                 });
 
-                // Update path with new points
+
                 if (replayPath) {
-                    const allLatLngs = activeReplayData.map(d => d.latlng);
-                    replayPath.setLatLngs(allLatLngs);
+                    replayPath.setLatLngs(activeReplayData.map(d => d.latlng));
                 }
 
-                // Update scrubber max
+
                 ui.scrubber.max = activeReplayData.length - 1;
 
-                // Auto-jump to latest event
+
                 playbackIndex = activeReplayData.length - 1;
                 updateDisplay();
 
-                // Show notification
+
                 console.log(`[LIVE] ${data.events.length} new event(s) received`);
             }
         } catch (error) {
@@ -1407,16 +1485,16 @@
         updatePlayBtn();
         clearTimeout(timerId);
 
-        // Show indicator
+
         document.getElementById('liveIndicator').style.display = 'block';
         document.getElementById('btnLiveMode').classList.add('active');
 
-        // Enable auto-follow
+
         document.getElementById('chkFollow').checked = true;
         isFollowing = true;
 
-        // Start polling every second
-        fetchNewEvents(); // Immediate fetch
+
+        fetchNewEvents();
         livePollingTimer = setInterval(fetchNewEvents, 1000);
 
         console.log('[LIVE] Live mode activated');
@@ -1425,11 +1503,11 @@
     function stopLiveMode() {
         isLiveMode = false;
 
-        // Hide indicator
+
         document.getElementById('liveIndicator').style.display = 'none';
         document.getElementById('btnLiveMode').classList.remove('active');
 
-        // Stop polling
+
         if (livePollingTimer) {
             clearInterval(livePollingTimer);
             livePollingTimer = null;
@@ -1438,7 +1516,7 @@
         console.log('[LIVE] Live mode deactivated');
     }
 
-    // Live mode button handler
+
     document.getElementById('btnLiveMode').addEventListener('click', () => {
         if (isLiveMode) {
             stopLiveMode();
@@ -1447,37 +1525,44 @@
         }
     });
 
-    // --- 9. TAB SWITCHING ---
+
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             const tabName = btn.dataset.tab;
 
-            // Update buttons
+            // In portrait mode, tapping a tab expands the sidebar if collapsed
+            if (sidebar.classList.contains('collapsed')) {
+                sidebar.classList.remove('collapsed');
+                portraitCollapseIcon.textContent = 'expand_more';
+                setTimeout(() => { if (map) map.invalidateSize(); }, 350);
+            }
+
+
             document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
 
-            // Update content
+
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
             document.getElementById(`tab-${tabName}`).classList.add('active');
 
-            // Load locations if switching to locations tab
+
             if (tabName === 'locations' && locationsData.length === 0) {
                 loadLocations();
             }
 
-            // Load quests if switching to quests tab
+
             if (tabName === 'quests' && questsData.length === 0) {
                 loadQuests();
             }
 
-            // Clear selected location marker when switching to status tab
+
             if (tabName === 'status' && selectedLocationMarker) {
                 map.removeLayer(selectedLocationMarker);
                 selectedLocationMarker = null;
                 selectedLocationId = null;
             }
 
-            // Clear selected quest marker when switching away from quests tab
+
             if (tabName !== 'quests' && selectedQuestMarker) {
                 map.removeLayer(selectedQuestMarker);
                 selectedQuestMarker = null;
@@ -1486,7 +1571,7 @@
         });
     });
 
-    // --- 10. LOCATIONS FUNCTIONALITY ---
+
     async function loadLocations() {
         try {
             const response = await fetch('/static/data/locations.json');
@@ -1505,7 +1590,7 @@
         const container = document.getElementById('locations-list');
         container.innerHTML = '';
 
-        // Store current filtered locations
+
         currentFilteredLocations = locations;
 
         locations.forEach(loc => {
@@ -1526,7 +1611,7 @@
             container.appendChild(item);
         });
 
-        // Update markers if they're currently visible
+
         if (markersVisible) {
             updateLocationMarkers(locations);
         }
@@ -1535,24 +1620,24 @@
     function selectLocation(loc) {
         selectedLocationId = loc.id;
 
-        // Update UI
+
         document.querySelectorAll('.location-item').forEach(item => {
             item.classList.toggle('selected', item.dataset.id === loc.id);
         });
 
-        // Fly to location
+
         const latlng = gameToLatLng(loc.x, loc.y);
         if (!latlng) return;
 
         map.flyTo(latlng, 5, { duration: 1.5 });
 
-        // Remove previous selected marker
+
         if (selectedLocationMarker) {
             map.removeLayer(selectedLocationMarker);
             selectedLocationMarker = null;
         }
 
-        // Create selected location marker (larger, more prominent) using the appropriate icon
+
         const selectedIcon = L.divIcon({
             className: 'custom-selected-marker',
             html: `
@@ -1585,12 +1670,12 @@
             className: 'custom-popup'
         });
 
-        // Open popup after a short delay to allow fly animation
+
         setTimeout(() => {
             selectedLocationMarker.openPopup();
         }, 1600);
 
-        // If all markers are visible, highlight the corresponding marker
+
         if (markersVisible) {
             locationMarkers.forEach(marker => {
                 if (marker.options.locationId === loc.id) {
@@ -1616,7 +1701,7 @@
     }
 
     function getLocationIcon(loc) {
-        // All locations use the same POI icon for better visibility
+
         const iconPath = '/static/images/icons/misc/poi.png';
 
         return L.icon({
@@ -1629,10 +1714,10 @@
     }
 
     function updateLocationMarkers(locations) {
-        // Clear existing markers
+
         hideLocationMarkers();
 
-        // Show markers only for the provided locations
+
         locations.forEach(loc => {
             const latlng = gameToLatLng(loc.x, loc.y);
             if (!latlng) return;
@@ -1676,10 +1761,10 @@
     function hideLocationMarkers() {
         locationMarkers.forEach(marker => map.removeLayer(marker));
         locationMarkers = [];
-        // Note: selectedLocationMarker is kept separate and not removed
+
     }
 
-    // Location search
+
     document.getElementById('locationSearch').addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
         const filtered = locationsData.filter(loc => {
@@ -1690,16 +1775,16 @@
         renderLocationsList(filtered);
     });
 
-    // Toggle markers button
+
     document.getElementById('btnToggleMarkers').addEventListener('click', toggleMarkers);
 
-    // --- 11. QUESTS FUNCTIONALITY ---
+
     async function loadQuests() {
         try {
             const response = await fetch('/static/data/quests.json');
             questsData = await response.json();
 
-            // Filter quests that have coordinates
+
             questObjectivesWithCoords = questsData
                 .filter(quest => quest.x !== null && quest.y !== null && quest.z !== null)
                 .map(quest => ({
@@ -1717,10 +1802,10 @@
 
             document.getElementById('quest-total-count').textContent = questObjectivesWithCoords.length;
 
-            // Populate filter dropdowns
+
             populateQuestFilters();
 
-            // Render with initial filters
+
             applyQuestFilters();
 
             console.log(`[QUESTS] Loaded ${questObjectivesWithCoords.length} quest objectives with coordinates`);
@@ -1730,13 +1815,13 @@
     }
 
     function populateQuestFilters() {
-        // Get unique values for each filter
+
         const questNames = [...new Set(questObjectivesWithCoords.map(q => q.questTitle))].sort();
         const questTypes = [...new Set(questObjectivesWithCoords.map(q => q.questType))].sort();
         const objectiveTypes = [...new Set(questObjectivesWithCoords.map(q => q.type))].sort();
         const districts = [...new Set(questObjectivesWithCoords.map(q => q.district).filter(d => d))].sort();
 
-        // Populate quest name dropdown
+
         const questNameSelect = document.getElementById('filterQuestName');
         questNames.forEach(name => {
             const option = document.createElement('option');
@@ -1745,7 +1830,7 @@
             questNameSelect.appendChild(option);
         });
 
-        // Populate quest type dropdown
+
         const questTypeSelect = document.getElementById('filterQuestType');
         questTypes.forEach(type => {
             const option = document.createElement('option');
@@ -1754,7 +1839,7 @@
             questTypeSelect.appendChild(option);
         });
 
-        // Populate objective type dropdown
+
         const objectiveTypeSelect = document.getElementById('filterObjectiveType');
         objectiveTypes.forEach(type => {
             const option = document.createElement('option');
@@ -1763,7 +1848,7 @@
             objectiveTypeSelect.appendChild(option);
         });
 
-        // Populate district dropdown
+
         const districtSelect = document.getElementById('filterDistrict');
         districts.forEach(district => {
             const option = document.createElement('option');
@@ -1776,27 +1861,27 @@
     function applyQuestFilters() {
         let filtered = questObjectivesWithCoords;
 
-        // Apply quest name filter
+
         if (questFilters.questName) {
             filtered = filtered.filter(q => q.questTitle === questFilters.questName);
         }
 
-        // Apply quest type filter
+
         if (questFilters.questType) {
             filtered = filtered.filter(q => q.questType === questFilters.questType);
         }
 
-        // Apply objective type filter
+
         if (questFilters.objectiveType) {
             filtered = filtered.filter(q => q.type === questFilters.objectiveType);
         }
 
-        // Apply district filter
+
         if (questFilters.district) {
             filtered = filtered.filter(q => q.district === questFilters.district);
         }
 
-        // Apply level range filter
+
         if (questFilters.levelMin !== null) {
             filtered = filtered.filter(q => q.level === null || q.level >= questFilters.levelMin);
         }
@@ -1808,7 +1893,7 @@
         renderQuestsList(filtered);
         updateActiveFilterCount();
 
-        // Update markers if they're currently visible
+
         if (questMarkersVisible) {
             updateQuestMarkers(filtered);
         }
@@ -1854,24 +1939,24 @@
     function selectQuest(quest) {
         selectedQuestId = quest.id;
 
-        // Update UI
+
         document.querySelectorAll('#quests-list .location-item').forEach(item => {
             item.classList.toggle('selected', item.dataset.id === quest.id);
         });
 
-        // Fly to quest location
+
         const latlng = gameToLatLng(quest.x, quest.y);
         if (!latlng) return;
 
         map.flyTo(latlng, 5, { duration: 1.5 });
 
-        // Remove previous selected marker
+
         if (selectedQuestMarker) {
             map.removeLayer(selectedQuestMarker);
             selectedQuestMarker = null;
         }
 
-        // Create selected quest marker (larger, more prominent) using the appropriate icon
+
         const selectedIcon = L.divIcon({
             className: 'custom-selected-marker',
             html: `
@@ -1903,12 +1988,12 @@
             className: 'custom-popup'
         });
 
-        // Open popup after a short delay to allow fly animation
+
         setTimeout(() => {
             selectedQuestMarker.openPopup();
         }, 1600);
 
-        // If all markers are visible, highlight the corresponding marker
+
         if (questMarkersVisible) {
             questMarkers.forEach(marker => {
                 if (marker.options.questId === quest.id) {
@@ -1934,7 +2019,7 @@
     }
 
     function getQuestIcon(quest) {
-        // All quest objectives use the same POI icon for better visibility
+
         const iconPath = '/static/images/icons/misc/poi.png';
 
         return L.icon({
@@ -1947,10 +2032,10 @@
     }
 
     function updateQuestMarkers(quests) {
-        // Clear existing markers
+
         hideQuestMarkers();
 
-        // Show markers only for the provided quests
+
         quests.forEach(quest => {
             const latlng = gameToLatLng(quest.x, quest.y);
             if (!latlng) return;
@@ -1987,7 +2072,7 @@
     }
 
     function showQuestMarkers() {
-        // Apply current filters to determine which quests to show
+
         let questsToShow = questObjectivesWithCoords;
 
         if (questFilters.questName) {
@@ -2015,17 +2100,17 @@
     function hideQuestMarkers() {
         questMarkers.forEach(marker => map.removeLayer(marker));
         questMarkers = [];
-        // Note: selectedQuestMarker is kept separate and not removed
+
     }
 
-    // Quest search
+
     document.getElementById('questSearch').addEventListener('input', (e) => {
         const query = e.target.value.toLowerCase();
 
-        // Start with filtered quests
+
         let searchBase = questObjectivesWithCoords;
 
-        // Apply existing filters first
+
         if (questFilters.questName) {
             searchBase = searchBase.filter(q => q.questTitle === questFilters.questName);
         }
@@ -2045,7 +2130,7 @@
             searchBase = searchBase.filter(q => q.level === null || q.level <= questFilters.levelMax);
         }
 
-        // Apply search query
+
         const filtered = searchBase.filter(quest => {
             const title = (quest.questTitle || '').toLowerCase();
             const desc = (quest.description || '').toLowerCase();
@@ -2056,13 +2141,13 @@
         document.getElementById('quest-filtered-count').textContent = filtered.length;
         renderQuestsList(filtered);
 
-        // Update markers if they're currently visible
+
         if (questMarkersVisible) {
             updateQuestMarkers(filtered);
         }
     });
 
-    // Filter event listeners
+
     document.getElementById('filterQuestName').addEventListener('change', (e) => {
         questFilters.questName = e.target.value;
         applyQuestFilters();
@@ -2093,7 +2178,7 @@
         applyQuestFilters();
     });
 
-    // Clear filters button
+
     document.getElementById('btnClearFilters').addEventListener('click', () => {
         questFilters = {
             questName: '',
@@ -2115,18 +2200,23 @@
         applyQuestFilters();
     });
 
-    // Filter toggle
+
     document.getElementById('filterToggleHeader').addEventListener('click', () => {
         const filterControls = document.getElementById('filterControls');
         const isHidden = filterControls.style.display === 'none';
         filterControls.style.display = isHidden ? 'block' : 'none';
     });
 
-    // Toggle quest markers button
+
     document.getElementById('btnToggleQuestMarkers').addEventListener('click', toggleQuestMarkers);
 
-    // --- 12. INIT ---
+
     initReplay();
+
+    // Invalidate Leaflet map size on orientation change so tiles fill correctly
+    screen.orientation
+        ? screen.orientation.addEventListener('change', () => { setTimeout(() => { if (map) map.invalidateSize(); }, 400); })
+        : window.addEventListener('orientationchange', () => { setTimeout(() => { if (map) map.invalidateSize(); }, 400); });
 
 </script>
 {% endblock %}

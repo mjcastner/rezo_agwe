@@ -169,6 +169,7 @@ body {
 /* --- CONTENT AREA (Unchanged) --- */
 .content-area {
     flex-grow: 1;
+    min-height: 0;
     padding: 24px;
     overflow-y: auto;
     background-image:
@@ -224,7 +225,6 @@ h3 {
         border-top: 1px solid var(--vdb-red-dim) !important;
         border-bottom: none !important;
         padding: 8px 0 !important;
-        order: 2 !important; /* Ensure it stays at bottom */
     }
 }
 
@@ -284,6 +284,7 @@ h3 {
 
     .content-area {
         flex: 1;
+        min-height: 0;
         padding: 16px;
         overflow-y: auto;
         overflow-x: hidden;
