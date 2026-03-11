@@ -1294,7 +1294,6 @@
         if (!activeReplayData[playbackIndex]) return;
         var d = activeReplayData[playbackIndex];
         replayMarker.setLatLng(d.latlng);
-        if (isFollowing) map.setView(d.latlng, map.getZoom(), { animate: false });
 
 
         ui.district.innerText = d.spatial.district || "Unknown";
@@ -1377,6 +1376,7 @@
         playbackIndex++;
         if (playbackIndex >= activeReplayData.length) { isPlaying = false; updatePlayBtn(); return; }
         updateDisplay();
+        if (isFollowing) map.setView(activeReplayData[playbackIndex].latlng, map.getZoom(), { animate: false });
         timerId = setTimeout(playStep, 100);
     }
 
@@ -1398,13 +1398,16 @@
         clearTimeout(timerId);
         playbackIndex = parseInt(this.value, 10);
         updateDisplay();
+        if (isFollowing) map.setView(activeReplayData[playbackIndex].latlng, map.getZoom(), { animate: false });
     };
 
     document.getElementById('btnSkipStart').onclick = () => {
         isPlaying = false; updatePlayBtn(); playbackIndex = 0; updateDisplay();
+        if (isFollowing) map.setView(activeReplayData[0].latlng, map.getZoom(), { animate: false });
     };
     document.getElementById('btnSkipEnd').onclick = () => {
         isPlaying = false; updatePlayBtn(); playbackIndex = activeReplayData.length - 1; updateDisplay();
+        if (isFollowing) map.setView(activeReplayData[playbackIndex].latlng, map.getZoom(), { animate: false });
     };
 
 
@@ -1460,22 +1463,19 @@
                 });
 
 
-                if (replayPath) {
-                    replayPath.setLatLngs(activeReplayData.map(d => d.latlng));
-                }
-
-
+                // Don't update the path in live mode — only the position marker is shown
                 ui.scrubber.max = activeReplayData.length - 1;
-
-
                 playbackIndex = activeReplayData.length - 1;
                 updateDisplay();
 
+                if (isFollowing) map.setView(activeReplayData[playbackIndex].latlng, map.getZoom(), { animate: false });
 
                 console.log(`[LIVE] ${data.events.length} new event(s) received`);
             }
         } catch (error) {
             console.error('[LIVE] Error fetching new events:', error);
+        } finally {
+            if (isLiveMode) livePollingTimer = setTimeout(fetchNewEvents, 1000);
         }
     }
 
@@ -1493,9 +1493,13 @@
         document.getElementById('chkFollow').checked = true;
         isFollowing = true;
 
+        // Hide historical path in live mode
+        if (replayPath) replayPath.setStyle({ opacity: 0, fillOpacity: 0 });
+
+        // Prime tile cache for current area, same role fitBounds plays in playback
+        if (replayMarker) map.setView(replayMarker.getLatLng(), map.getZoom(), { animate: false });
 
         fetchNewEvents();
-        livePollingTimer = setInterval(fetchNewEvents, 1000);
 
         console.log('[LIVE] Live mode activated');
     }
@@ -1503,14 +1507,18 @@
     function stopLiveMode() {
         isLiveMode = false;
 
-
         document.getElementById('liveIndicator').style.display = 'none';
         document.getElementById('btnLiveMode').classList.remove('active');
 
-
         if (livePollingTimer) {
-            clearInterval(livePollingTimer);
+            clearTimeout(livePollingTimer);
             livePollingTimer = null;
+        }
+
+        // Restore historical path
+        if (replayPath) {
+            replayPath.setLatLngs(activeReplayData.map(d => d.latlng));
+            replayPath.setStyle({ opacity: 0.8, fillOpacity: 0.8 });
         }
 
         console.log('[LIVE] Live mode deactivated');

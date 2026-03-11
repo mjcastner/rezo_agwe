@@ -353,27 +353,27 @@ async def live_events(since: str = None):
     Returns:
         JSON array of events newer than the specified timestamp
     """
-    event_df = generate_events()
+    game_dir = validate_game_dir()
+    mod_dir = validate_mod_dir(game_dir=game_dir)
 
     if since:
-        # Filter events newer than the provided timestamp
         filtered_df = duckdb.sql(
             f"""
-            SELECT * FROM event_df
+            SELECT * FROM read_ndjson('{mod_dir}/*.ndjson')
             WHERE timestamp::TIMESTAMP > '{since}'
             ORDER BY timestamp::TIMESTAMP ASC
             """
         ).df()
     else:
-        # If no timestamp provided, return the most recent event
         filtered_df = duckdb.sql(
-            """
-            SELECT * FROM event_df
+            f"""
+            SELECT * FROM read_ndjson('{mod_dir}/*.ndjson')
             ORDER BY timestamp::TIMESTAMP DESC
             LIMIT 1
             """
         ).df()
 
+    add_icons(filtered_df)
     events = filtered_df.to_dict(orient="records")
     return {"events": events, "count": len(events)}
 
@@ -520,53 +520,47 @@ def generate_events() -> pd.DataFrame:
         f"SELECT * FROM read_ndjson('{mod_dir}/*.ndjson') ORDER BY timestamp::TIMESTAMP"
     ).df()
 
-    # Add icons
+    add_icons(event_df)
+    return event_df
+
+
+VALID_DISTRICTS = {
+    "Badlands": "static/images/icons/districts/badlands.png",
+    "City Center": "static/images/icons/districts/city_center.png",
+    "Dogtown": "static/images/icons/districts/dogtown.png",
+    "Heywood": "static/images/icons/districts/heywood.png",
+    "Pacifica": "static/images/icons/districts/pacifica.png",
+    "Santo Domingo": "static/images/icons/districts/santo_domingo.png",
+    "Watson": "static/images/icons/districts/watson.png",
+    "Westbrook": "static/images/icons/districts/westbrook.png",
+}
+
+
+def add_icons(event_df: pd.DataFrame) -> None:
+    """Mutates event_df rows in-place, adding icon paths for district/weapon/vehicle."""
     district_index = None
     for index, row in event_df.iterrows():
-        # District
         district = str(row["spatial"]["district"])
         neighborhood = str(row["spatial"]["subDistrict"])
-        valid_districts = {
-            "Badlands": "static/images/icons/districts/badlands.png",
-            "City Center": "static/images/icons/districts/city_center.png",
-            "Dogtown": "static/images/icons/districts/dogtown.png",
-            "Heywood": "static/images/icons/districts/heywood.png",
-            "Pacifica": "static/images/icons/districts/pacifica.png",
-            "Santo Domingo": "static/images/icons/districts/santo_domingo.png",
-            "Watson": "static/images/icons/districts/watson.png",
-            "Westbrook": "static/images/icons/districts/westbrook.png",
-        }
 
-        if district in valid_districts.keys():
+        if district in VALID_DISTRICTS:
             district_index = district
-        elif neighborhood in valid_districts.keys():
+        elif neighborhood in VALID_DISTRICTS:
             district_index = neighborhood
 
-        if district_index:
-            row["spatial"]["districtIcon"] = valid_districts[district_index]
-        else:
-            row["spatial"]["districtIcon"] = "None"
+        row["spatial"]["districtIcon"] = VALID_DISTRICTS[district_index] if district_index else "None"
 
-        # Weapon
         weapon = str(row["loadout"]["activeWeapon"])
         if weapon.startswith("Items.Craftable_"):
             weapon = weapon.replace("Items.Craftable_", "").split("_")[-1]
-            row["loadout"]["activeWeaponIcon"] = (
-                f"static/images/icons/weapons/{weapon}_Default.png"
-            )
+            row["loadout"]["activeWeaponIcon"] = f"static/images/icons/weapons/{weapon}_Default.png"
         elif weapon.startswith("Items.Preset_"):
             weapon = weapon.replace("Items.Preset_", "")
-            row["loadout"]["activeWeaponIcon"] = (
-                f"static/images/icons/weapons/{weapon}.png"
-            )
+            row["loadout"]["activeWeaponIcon"] = f"static/images/icons/weapons/{weapon}.png"
         else:
             row["loadout"]["activeWeaponIcon"] = "None"
 
-        # Vehicle
-        vehicle = str(row["loadout"]["equippedVehicle"])
-        row["loadout"]["equippedVehicleIcon"] = get_vehicle_icon(vehicle)
-
-    return event_df
+        row["loadout"]["equippedVehicleIcon"] = get_vehicle_icon(str(row["loadout"]["equippedVehicle"]))
 
 
 def main(argv):
